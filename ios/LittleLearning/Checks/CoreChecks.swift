@@ -55,5 +55,6 @@ struct CoreChecks {
         try NewGamesChecks.run()
         try FunChecks.run()
         try RulerChecks.run()
+        try PointsSyncChecks.run()
     }
 }

@@ -36,6 +36,7 @@ struct RootView: View {
         .sheet(item:$store.topicPickerGame) { game in
             StudyPickerView(game:game).presentationDetents([.large])
         }
+        .sheet(isPresented:$store.showsPointsSync) { PointsSyncView().presentationDetents([.large]) }
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { collection.pauseFun();collection.stopDelivery();store.save(); collection.save(); store.stopSpeech() }
         }

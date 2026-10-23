@@ -17,5 +17,7 @@ jobs:
         run: zsh scripts/check_core.sh
       - name: Store and rewards
         run: zsh scripts/check_store.sh
+      - name: QR image roundtrip
+        run: zsh scripts/check_sync_images.sh
       - name: Build native Mac preview
         run: swift build

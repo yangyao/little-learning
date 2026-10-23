@@ -73,6 +73,37 @@ final class CollectionStore: ObservableObject {
             return true
         } catch { saveError="进度暂时无法保存，切换未完成，请再试一次。";return false }
     }
+    func pointsSnapshot() throws -> PointsSyncSnapshot {
+        guard loadError == nil,var state=family else { throw PointsSyncError.invalid }
+        if let child=activeChild { state.children[child.rawValue]=progress }
+        return .init(ledgers:state.children.mapValues(\.rewards))
+    }
+    func previewPointsSync(_ snapshot: PointsSyncSnapshot) throws -> [String:RewardLedger] {
+        guard snapshot.isValid else { throw PointsSyncError.invalid }
+        let local=try pointsSnapshot()
+        return try Dictionary(uniqueKeysWithValues:FamilyChild.allCases.map { child in
+            (child.rawValue,try local.ledgers[child.rawValue]!.merging(snapshot.ledgers[child.rawValue]!))
+        })
+    }
+    func mergePointsSync(_ snapshot: PointsSyncSnapshot) throws {
+        pauseFun()
+        let merged=try previewPointsSync(snapshot)
+        guard var updated=family else { throw PointsSyncError.invalid }
+        if let child=activeChild { updated.children[child.rawValue]=progress }
+        for child in FamilyChild.allCases {
+            var state=updated.children[child.rawValue]!
+            let oldTime=state.funTime.remaining(in:state.rewards)
+            state.rewards=merged[child.rawValue]!
+            // Imported time purchases deduct points but never create playable credit here.
+            let importedTime=state.funTime.remaining(in:state.rewards)-oldTime
+            if importedTime > 0 { state.funTime.consume(importedTime,in:state.rewards) }
+            updated.children[child.rawValue]=state
+        }
+        try writeFamily(updated)
+        saveTask?.cancel();saveTask=nil;family=updated
+        if let child=activeChild { reconciling=true;progress=updated.children[child.rawValue]!;reconciling=false }
+        clearRewardNotice()
+    }
     private func writeFamily(_ state: FamilyProgress) throws {
         let data=try JSONEncoder().encode(state)
         try FileManager.default.createDirectory(at:file.deletingLastPathComponent(),withIntermediateDirectories:true)

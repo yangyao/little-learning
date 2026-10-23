@@ -16,6 +16,7 @@ final class GameStore: ObservableObject {
     @Published var selectedGame: LearningGame?
     @Published var selectedFunGame: FunGame?
     @Published var showsRewards = false
+    @Published var showsPointsSync = false
     @Published var showsChildPicker = false
     @Published var drawerCategory: DrawerCategory = .learning
     @Published var topicPickerGame: LearningGame?

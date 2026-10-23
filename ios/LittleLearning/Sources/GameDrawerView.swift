@@ -19,6 +19,9 @@ struct GameDrawerView: View {
                             }.font(.system(size:20,weight:.semibold)).lineLimit(1).frame(minHeight:48)
                         }.buttonStyle(IllustrationButtonStyle()).accessibilityLabel("当前是\(collection.activeChild?.name ?? "未选择")，点击切换孩子").accessibilityIdentifier("drawer.child")
                         Spacer()
+                        Button { store.save();store.showsPointsSync=true } label: {
+                            Image(systemName:"qrcode.viewfinder").font(.system(size:22)).frame(width:44,height:48)
+                        }.buttonStyle(IllustrationButtonStyle()).accessibilityLabel("面对面同步积分").accessibilityIdentifier("drawer.sync")
                         Button { collection.clearRewardNotice();store.showsRewards=true } label: {
                             HStack(spacing:6) {
                                 Image(systemName:"star.fill").foregroundStyle(Wood.Palette.hint)

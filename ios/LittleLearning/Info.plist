@@ -19,9 +19,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2</string>
+	<string>2.3</string>
 	<key>CFBundleVersion</key>
-	<string>19</string>
+	<string>20</string>
+	<key>NSCameraUsageDescription</key>
+	<string>扫描另一台手机的二维码，在两台手机之间合并孩子的积分记录，不上传网络。</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

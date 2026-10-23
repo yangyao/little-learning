@@ -158,6 +158,31 @@ public struct RewardLedger: Codable, Equatable, Sendable {
         guard let original=entries.first(where:{$0.id == redemptionID && $0.kind == .redemption}), !isRefunded(redemptionID) else { return false }
         entries.append(.init(id:UUID(),date:date,kind:.refund,reference:redemptionID.uuidString,title:"撤销 · \(original.title)",amount:-original.amount)); return true
     }
+    /// Union immutable events, deduplicating challenge awards and refunds by meaning.
+    /// Awards first, refunded pairs next, then outstanding spending keeps valid prefixes.
+    public func merging(_ other: Self) throws -> Self {
+        guard isValid,other.isValid else { throw PointsSyncError.invalid }
+        var unique=[UUID:PointsEntry]()
+        for entry in entries+other.entries {
+            if let old=unique[entry.id],old != entry { throw PointsSyncError.conflict }
+            unique[entry.id]=entry
+        }
+        let ordered=unique.values.sorted { $0.id.uuidString < $1.id.uuidString }
+        var awards=[String:PointsEntry](),refunds=[String:PointsEntry]()
+        for entry in ordered {
+            if entry.kind == .award,awards[entry.reference] == nil { awards[entry.reference]=entry }
+            if entry.kind == .refund,refunds[entry.reference] == nil { refunds[entry.reference]=entry }
+        }
+        var result=Self()
+        result.entries=awards.values.sorted { $0.reference < $1.reference }
+        let spending=ordered.filter { $0.kind == .redemption || $0.kind == .playTime }
+        for entry in spending where refunds[entry.id.uuidString] != nil {
+            result.entries.append(entry);result.entries.append(refunds[entry.id.uuidString]!)
+        }
+        result.entries += spending.filter { refunds[$0.id.uuidString] == nil }
+        guard result.isValid else { throw PointsSyncError.overspent }
+        return result
+    }
     public var isValid: Bool {
         var ids=Set<UUID>(), awarded=Set<String>(), refunded=Set<String>(), redemptions=[String:PointsEntry](), total=0
         for e in entries {

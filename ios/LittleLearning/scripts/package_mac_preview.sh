@@ -15,7 +15,7 @@ cp Assets.xcassets/AppIcon.appiconset/AppIcon.png "$stage_app/Contents/Resources
 /usr/libexec/PlistBuddy -c 'Add :CFBundleIdentifier string com.example.littlelearning.preview' "$stage_app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Add :CFBundleName string 游戏抽屉' "$stage_app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Add :CFBundlePackageType string APPL' "$stage_app/Contents/Info.plist"
-/usr/libexec/PlistBuddy -c 'Add :CFBundleShortVersionString string 2.2' "$stage_app/Contents/Info.plist"
+/usr/libexec/PlistBuddy -c 'Add :CFBundleShortVersionString string 2.3' "$stage_app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Add :LSMinimumSystemVersion string 14.0' "$stage_app/Contents/Info.plist"
 codesign --force --sign - "$stage_app"
 codesign --verify --deep --strict "$stage_app"

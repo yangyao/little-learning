@@ -71,7 +71,7 @@ struct RewardsView: View {
                     if !ledger.entries.contains(where:{$0.kind == .redemption || $0.kind == .playTime}) {
                         Text("还没有兑换记录").font(.system(size:16)).foregroundStyle(Wood.Palette.textSecondary)
                     }
-                    ForEach(ledger.entries.reversed().filter {$0.kind == .redemption || $0.kind == .playTime}) { entry in
+                    ForEach(ledger.entries.filter {$0.kind == .redemption || $0.kind == .playTime}.sorted { $0.date == $1.date ? $0.id.uuidString > $1.id.uuidString : $0.date > $1.date }) { entry in
                         HStack(alignment:.top) {
                             VStack(alignment:.leading,spacing:4) {
                                 Text(entry.title).font(.system(size:16,weight:.semibold))
