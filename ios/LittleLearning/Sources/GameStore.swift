@@ -16,6 +16,7 @@ final class GameStore: ObservableObject {
     @Published var selectedGame: LearningGame?
     @Published var selectedFunGame: FunGame?
     @Published var showsRewards = false
+    @Published var showsChildPicker = false
     @Published var drawerCategory: DrawerCategory = .learning
     @Published var topicPickerGame: LearningGame?
     private let collection: CollectionStore
@@ -40,6 +41,21 @@ final class GameStore: ObservableObject {
         let args=ProcessInfo.processInfo.arguments
         if let index=args.firstIndex(of:"--check-offline-game"),args.indices.contains(index+1),let game=FunGame(rawValue:args[index+1]),game.isWebGame { selectedFunGame=game }
         #endif
+    }
+
+    func showChildPicker() {
+        stopSpeech();collection.pauseFun();collection.stopDelivery();save()
+        guard collection.saveError == nil else { return }
+        topicPickerGame=nil;selectedGame=nil;selectedFunGame=nil;showsRewards=false
+        showsChildPicker=true
+    }
+    func chooseChild(_ child: FamilyChild) {
+        stopSpeech()
+        guard collection.selectChild(child) else { return }
+        game=collection.progress.numberLine ?? .fresh()
+        duckSelected=false;dragOffset = .zero;isDragging=false;padFrames=[:]
+        selectedGame=nil;selectedFunGame=nil;showsRewards=false;topicPickerGame=nil
+        drawerCategory = .learning;showsChildPicker=false
     }
 
     var hasProgress: Bool { game.phase != .complete && (game.index > 0 || game.position != game.question.start || game.phase == .correct) }

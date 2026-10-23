@@ -11,7 +11,13 @@ struct GameDrawerView: View {
             VStack(spacing:Wood.Spacing.md) {
                 VStack(spacing:12) {
                     HStack(alignment:.firstTextBaseline) {
-                        Text("游戏抽屉").woodText(Wood.Typography.heading)
+                        Button { store.showChildPicker() } label: {
+                            HStack(spacing:5) {
+                                Text(collection.activeChild?.avatar ?? "🐰")
+                                Text(collection.activeChild?.name ?? "选人")
+                                Image(systemName:"chevron.down").font(.system(size:12,weight:.bold))
+                            }.font(.system(size:20,weight:.semibold)).lineLimit(1).frame(minHeight:48)
+                        }.buttonStyle(IllustrationButtonStyle()).accessibilityLabel("当前是\(collection.activeChild?.name ?? "未选择")，点击切换孩子").accessibilityIdentifier("drawer.child")
                         Spacer()
                         Button { collection.clearRewardNotice();store.showsRewards=true } label: {
                             HStack(spacing:6) {

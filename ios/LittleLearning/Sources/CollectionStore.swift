@@ -21,16 +21,31 @@ final class CollectionStore: ObservableObject {
     var funMeter = FunTimeMeter()
     var funTask: Task<Void,Never>?
     var antTask: Task<Void,Never>?
+    @Published private(set) var activeChild: FamilyChild?
+    private var family: FamilyProgress?
+    private let profilesEnabled: Bool
     private let file: URL
     private var saveTask: Task<Void,Never>?
 
-    init(fileURL: URL? = nil,defaults: UserDefaults = .standard,uptime: @escaping ()->Double = { ProcessInfo.processInfo.systemUptime }) {
+    init(fileURL: URL? = nil,defaults: UserDefaults = .standard,uptime: @escaping ()->Double = { ProcessInfo.processInfo.systemUptime },profilesEnabled: Bool = false) {
         funNow=uptime
+        self.profilesEnabled=profilesEnabled
         let base = FileManager.default.urls(for:.applicationSupportDirectory,in:.userDomainMask).first!
-        file = fileURL ?? base.appendingPathComponent("LittleLearning",isDirectory:true).appendingPathComponent("collection-v1.json")
-        let data=try? Data(contentsOf:file)
+        let legacyFile=fileURL ?? base.appendingPathComponent("LittleLearning",isDirectory:true).appendingPathComponent("collection-v1.json")
+        file=profilesEnabled ? legacyFile.deletingPathExtension().appendingPathExtension("family-v1.json") : legacyFile
+        if profilesEnabled,FileManager.default.fileExists(atPath:file.path) {
+            guard let data=try? Data(contentsOf:file),let saved=FamilyProgress.restore(data) else {
+                progress = .init()
+                loadError="本机学习记录暂时无法读取。原文件已保留，请先让家人帮忙检查。"
+                return
+            }
+            family=saved
+            progress=saved.children[FamilyChild.zhenyi.rawValue]!
+            return
+        }
+        let data=try? Data(contentsOf:legacyFile)
         let restored=data.flatMap(CollectionProgress.restore)
-        if FileManager.default.fileExists(atPath:file.path), restored == nil {
+        if FileManager.default.fileExists(atPath:legacyFile.path), restored == nil {
             progress = .init()
             loadError="本机学习记录暂时无法读取。原文件已保留，请先让家人帮忙检查。"
             return
@@ -41,7 +56,28 @@ final class CollectionStore: ObservableObject {
         }
         for challenge in RewardCatalog.completed(in:state) { state.rewards.award(challenge.id) }
         progress=state
+        if profilesEnabled { family=FamilyProgress(legacy:state) }
         save()
+    }
+    /// Flush the departing child before replacing any state. A failed write blocks switching.
+    @discardableResult func selectChild(_ child: FamilyChild) -> Bool {
+        guard profilesEnabled,loadError == nil,var saved=family else { return false }
+        pauseFun();stopDelivery();saveTask?.cancel();saveTask=nil
+        if let current=activeChild { saved.children[current.rawValue]=progress }
+        do {
+            try writeFamily(saved)
+            guard let next=saved.children[child.rawValue] else { return false }
+            family=saved
+            reconciling=true;progress=next;reconciling=false
+            activeChild=child;clockDragging=false;clearRewardNotice()
+            return true
+        } catch { saveError="进度暂时无法保存，切换未完成，请再试一次。";return false }
+    }
+    private func writeFamily(_ state: FamilyProgress) throws {
+        let data=try JSONEncoder().encode(state)
+        try FileManager.default.createDirectory(at:file.deletingLastPathComponent(),withIntermediateDirectories:true)
+        try data.write(to:file,options:.atomic)
+        saveError=nil
     }
     func clearRewardNotice() { recentAwardID=nil; rewardMessage=nil }
     @Published var deliveryFrame: RouteFrame?
@@ -103,6 +139,13 @@ final class CollectionStore: ObservableObject {
     }
     func persist(_ state: CollectionProgress) throws {
         guard loadError == nil else { throw CocoaError(.fileReadCorruptFile) }
+        if profilesEnabled {
+            guard var updated=family else { throw CocoaError(.fileReadCorruptFile) }
+            if let child=activeChild { updated.children[child.rawValue]=state }
+            try writeFamily(updated)
+            family=updated
+            return
+        }
         let data=try JSONEncoder().encode(state)
         try FileManager.default.createDirectory(at:file.deletingLastPathComponent(),withIntermediateDirectories:true)
         try data.write(to:file,options:.atomic)

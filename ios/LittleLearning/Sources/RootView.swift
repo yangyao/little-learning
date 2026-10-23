@@ -7,7 +7,7 @@ struct RootView: View {
     @EnvironmentObject private var store: GameStore
     @EnvironmentObject private var collection: CollectionStore
     @Environment(\.scenePhase) private var scenePhase
-    private var showsDrawer: Bool { collection.loadError == nil && !store.showsRewards && store.selectedFunGame == nil && store.selectedGame == nil }
+    private var showsDrawer: Bool { collection.loadError == nil && collection.activeChild != nil && !store.showsChildPicker && !store.showsRewards && store.selectedFunGame == nil && store.selectedGame == nil }
     var body: some View {
         ZStack {
             GameDrawerView()
@@ -17,14 +17,15 @@ struct RootView: View {
                 .accessibilityHidden(!showsDrawer)
             Group {
             if let error=collection.loadError { Text(error).woodText(Wood.Typography.body).padding(24) }
+            else if collection.activeChild == nil || store.showsChildPicker { ChildPickerView() }
             else if store.showsRewards { RewardsView() }
-            else if let game=store.selectedFunGame { FunGameView(game:game) }
+            else if let game=store.selectedFunGame { FunGameView(game:game,child:collection.activeChild ?? .zhenyi) }
             else if let game = store.selectedGame {
                 if game == .numberLine { NumberLineView() }
                 else { CollectionGameView(game:game) }
             } else { Color.clear.allowsHitTesting(false) }
             }
-            .id(store.showsRewards ? "rewards" : store.selectedFunGame.map {"fun-\($0.rawValue)"} ?? store.selectedGame?.rawValue ?? "drawer")
+            .id(collection.activeChild == nil || store.showsChildPicker ? "children" : store.showsRewards ? "rewards" : store.selectedFunGame.map {"fun-\($0.rawValue)"} ?? store.selectedGame?.rawValue ?? "drawer")
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Wood.Palette.canvas.ignoresSafeArea())

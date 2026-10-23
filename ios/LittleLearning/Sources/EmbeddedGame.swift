@@ -7,25 +7,28 @@ import LearningCore
 /// One local web view per game keeps the physics scene alive while returning to the drawer.
 @MainActor
 final class WebGameSession: NSObject, ObservableObject, WKScriptMessageHandler, WKNavigationDelegate {
-    private static var sessions: [FunGame:WebGameSession] = [:]
-    static func cached(_ game: FunGame) -> WebGameSession {
-        if let existing=sessions[game] { return existing }
-        let session=WebGameSession(game:game);sessions[game]=session;return session
+    private static var sessions: [String:WebGameSession] = [:]
+    static func cached(_ game: FunGame,child: FamilyChild) -> WebGameSession {
+        let key=child.rawValue+":"+game.rawValue
+        if let existing=sessions[key] { return existing }
+        let session=WebGameSession(game:game,child:child);sessions[key]=session;return session
     }
     @Published private(set) var ready=false
     @Published private(set) var error: String?
     let game: FunGame
+    let child: FamilyChild
     private(set) var view: WKWebView!
     private var timeout: Task<Void,Never>?
     private var paused=true
     private var bridgeTemplate=""
     private var file: URL {
         FileManager.default.urls(for:.applicationSupportDirectory,in:.userDomainMask).first!
-            .appendingPathComponent("LittleLearning/WebGames",isDirectory:true).appendingPathComponent(game.rawValue+".json")
+            .appendingPathComponent("LittleLearning/WebGames/\(child.rawValue)",isDirectory:true).appendingPathComponent(game.rawValue+".json")
     }
-    init(game: FunGame) {
-        self.game=game;super.init()
+    init(game: FunGame,child: FamilyChild) {
+        self.game=game;self.child=child;super.init()
         let configuration=WKWebViewConfiguration()
+        configuration.websiteDataStore = .nonPersistent()
         configuration.setURLSchemeHandler(LocalGameFiles(),forURLScheme:"familygame")
         let controller=configuration.userContentController
         controller.add(WeakGameHandler(self),name:"family")
@@ -49,7 +52,10 @@ final class WebGameSession: NSObject, ObservableObject, WKScriptMessageHandler, 
     }
     func reload() {
         ready=false;error=nil;paused=true
-        let saved=(try? Data(contentsOf:file)).flatMap { try? JSONSerialization.jsonObject(with:$0) }
+        // Only 臻一 inherits the original web-game saves. Never share browser storage.
+        let legacy=file.deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent(game.rawValue+".json")
+        let source=child == .zhenyi && !FileManager.default.fileExists(atPath:file.path) ? legacy : file
+        let saved=(try? Data(contentsOf:source)).flatMap { try? JSONSerialization.jsonObject(with:$0) }
         let initial=(saved.flatMap { try? JSONSerialization.data(withJSONObject:$0) }).flatMap { String(data:$0,encoding:.utf8) } ?? "null"
         let controller=view.configuration.userContentController
         controller.removeAllUserScripts()

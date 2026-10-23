@@ -5,7 +5,7 @@ struct LittleLearningApp: App {
     @StateObject private var store: GameStore
     @StateObject private var collection: CollectionStore
     init() {
-        let library=CollectionStore()
+        let library=CollectionStore(profilesEnabled:true)
         _collection=StateObject(wrappedValue:library)
         _store=StateObject(wrappedValue:GameStore(collection:library))
     }

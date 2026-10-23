@@ -12,7 +12,7 @@ struct FunGameView: View {
     @EnvironmentObject private var library: CollectionStore
     @StateObject private var web: WebGameSession
     @StateObject private var screen=FunPurchaseState()
-    init(game: FunGame) { self.game=game;_web=StateObject(wrappedValue:WebGameSession.cached(game)) }
+    init(game: FunGame,child: FamilyChild) { self.game=game;_web=StateObject(wrappedValue:WebGameSession.cached(game,child:child)) }
     var body: some View {
         VStack(spacing:0) {
             HStack(spacing:8) {
