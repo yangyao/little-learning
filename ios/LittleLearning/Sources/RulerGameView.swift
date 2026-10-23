@@ -158,11 +158,11 @@ struct RulerActions: View {
                 }
             }
             HStack(spacing:10) {
-                Button("提示") { library.progress.ruler.revealHint() }.buttonStyle(SecondaryWoodStyle()).accessibilityIdentifier("ruler.hint")
+                Button("提示") { library.progress.ruler.revealHint() }.buttonStyle(SecondaryWoodStyle()).frame(width:72).lineLimit(1).minimumScaleFactor(0.8).accessibilityIdentifier("ruler.hint")
                 if s.task.mode == .target || s.task.mode == .explore {
-                    Button("重选") { library.progress.ruler.clearPair() }.buttonStyle(SecondaryWoodStyle()).accessibilityIdentifier("ruler.clear")
+                    Button("重选") { library.progress.ruler.clearPair() }.buttonStyle(SecondaryWoodStyle()).frame(width:72).lineLimit(1).minimumScaleFactor(0.8).accessibilityIdentifier("ruler.clear")
                 }
-                Button(s.task.mode == .explore ? "发现了" : s.task.mode == .missingNumber ? "补好了" : "量好了") { library.progress.ruler.check() }.buttonStyle(WoodenPrimaryButtonStyle()).accessibilityIdentifier("ruler.check")
+                Button(s.task.mode == .explore ? "发现了" : s.task.mode == .missingNumber ? "补好了" : "量好了") { library.progress.ruler.check() }.buttonStyle(WoodenPrimaryButtonStyle()).lineLimit(1).minimumScaleFactor(0.8).layoutPriority(1).accessibilityIdentifier("ruler.check")
             }
         }
     }
