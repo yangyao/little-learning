@@ -5,9 +5,9 @@
 13 款学习与创作游戏，39 个题组，878 个可玩挑战。首次完成关卡获得积分，重复做不重复计分；积分可以手动记录兑换礼物。
 
 <p align="center">
-  <img src="docs/screenshots/drawer.png" width="240" alt="学习游戏抽屉" />
-  <img src="docs/screenshots/math.png" width="240" alt="荷叶跳跳数学游戏" />
-  <img src="docs/screenshots/tangram.png" width="240" alt="七巧板拼图" />
+  <img src="docs/screenshots/drawer.jpg" width="240" alt="学习游戏抽屉" />
+  <img src="docs/screenshots/math.jpg" width="240" alt="荷叶跳跳数学游戏" />
+  <img src="docs/screenshots/tangram.jpg" width="240" alt="七巧板拼图" />
 </p>
 
 截图为实际运行的 macOS 预览窗口，与 iOS 共用 SwiftUI 界面；不是设计稿。
