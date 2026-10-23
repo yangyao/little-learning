@@ -1,0 +1,66 @@
+[
+  {
+    "name": "primary label",
+    "foreground": "#FFFFFF",
+    "background": "#8C5835",
+    "ratio": 5.895,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "name": "token numeral",
+    "foreground": "#2B1C18",
+    "background": "#C87A3E",
+    "ratio": 4.921,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "name": "audio symbol",
+    "foreground": "#643A1B",
+    "background": "#E6AA38",
+    "ratio": 4.703,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "name": "secondary body",
+    "foreground": "#7A6658",
+    "background": "#F8F4EC",
+    "ratio": 4.948,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "name": "hint body",
+    "foreground": "#643A1B",
+    "background": "#FCF6EA",
+    "ratio": 9.02,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "name": "success body",
+    "foreground": "#355940",
+    "background": "#E6F0E9",
+    "ratio": 6.783,
+    "minimum": 4.5,
+    "pass": true
+  },
+  {
+    "name": "success symbol",
+    "foreground": "#FFFFFF",
+    "background": "#4A7C59",
+    "ratio": 4.863,
+    "minimum": 3,
+    "pass": true
+  },
+  {
+    "name": "slot outline",
+    "foreground": "#643A1B",
+    "background": "#D8CEBA",
+    "ratio": 6.222,
+    "minimum": 3,
+    "pass": true
+  }
+]

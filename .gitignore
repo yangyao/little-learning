@@ -1,0 +1,16 @@
+.DS_Store
+.build/
+build/
+DerivedData/
+node_modules/
+*.xcuserstate
+xcuserdata/
+*.mobileprovision
+*.p12
+*.p8
+.env
+.env.*
+*.zip
+# Optional game bundles are private and not distributed.
+ios/LittleLearning/Sources/WebGames/*
+!ios/LittleLearning/Sources/WebGames/README.md

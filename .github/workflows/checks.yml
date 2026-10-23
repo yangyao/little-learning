@@ -1,0 +1,21 @@
+name: Checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  macos:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: ios/LittleLearning
+    steps:
+      - uses: actions/checkout@v4
+      - name: Core rules and persistence
+        run: zsh scripts/check_core.sh
+      - name: Store and rewards
+        run: zsh scripts/check_store.sh
+      - name: Build native Mac preview
+        run: swift build

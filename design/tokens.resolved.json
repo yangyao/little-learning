@@ -1,0 +1,388 @@
+{
+  "metadata": {
+    "name": "Warm Tactile Wood",
+    "version": "1.0.0",
+    "dimensionUnit": "pt",
+    "durationUnit": "s",
+    "referenceSyntax": "References use a dotted token path enclosed in braces.",
+    "scope": "iPhone-first children learning games; light appearance",
+    "source": "stitch-source/code.html + screen.png; normalized in SOURCE_REVIEW.md",
+    "status": "Implementation baseline; not user-tested"
+  },
+  "primitive": {
+    "color": {
+      "linen": "#F8F4EC",
+      "board": "#F7F2EA",
+      "tray": "#FBF8F1",
+      "birch": "#E8DCB8",
+      "beech": "#8C5835",
+      "beechDark": "#643A1B",
+      "teak": "#C87A3E",
+      "teakDark": "#9C5824",
+      "moss": "#4A7C59",
+      "mossDark": "#355940",
+      "ochre": "#E6AA38",
+      "ochreDark": "#B37F1E",
+      "walnut": "#3E2723",
+      "deepInk": "#2B1C18",
+      "slate": "#7A6658",
+      "recess": "#D8CEBA",
+      "border": "#DFD4BD",
+      "traySide": "#C9BFA8",
+      "secondary": "#ECE4D0",
+      "successBg": "#E6F0E9",
+      "hintBg": "#FCF6EA",
+      "disabledFill": "#D4C8B0",
+      "disabledStroke": "#A6977F",
+      "white": "#FFFFFF"
+    },
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "controlGap": 12,
+      "md": 16,
+      "lg": 24,
+      "xl": 32,
+      "xxl": 40,
+      "xxxl": 48
+    },
+    "radius": {
+      "small": 12,
+      "medium": 16,
+      "large": 24
+    }
+  },
+  "semantic": {
+    "color": {
+      "canvas": "#F7F2EA",
+      "surface": "#F8F4EC",
+      "tray": "#FBF8F1",
+      "textPrimary": "#3E2723",
+      "textSecondary": "#7A6658",
+      "actionPrimary": "#8C5835",
+      "actionPrimarySide": "#643A1B",
+      "onPrimary": "#FFFFFF",
+      "object": "#C87A3E",
+      "objectSide": "#9C5824",
+      "onObject": "#2B1C18",
+      "success": "#4A7C59",
+      "successSide": "#355940",
+      "onSuccess": "#FFFFFF",
+      "successText": "#355940",
+      "successBackground": "#E6F0E9",
+      "hint": "#E6AA38",
+      "hintSide": "#B37F1E",
+      "hintText": "#643A1B",
+      "onHint": "#643A1B",
+      "hintBackground": "#FCF6EA",
+      "recess": "#D8CEBA",
+      "slotStroke": "#643A1B",
+      "borderDecorative": "#DFD4BD",
+      "traySide": "#C9BFA8",
+      "secondaryFill": "#ECE4D0",
+      "disabledFill": "#D4C8B0",
+      "disabledStroke": "#A6977F",
+      "disabledInk": "#7A6658"
+    },
+    "spacing": {
+      "xs": 4,
+      "sm": 8,
+      "controlGap": 12,
+      "md": 16,
+      "lg": 24,
+      "xl": 32,
+      "xxl": 40,
+      "xxxl": 48
+    },
+    "radius": {
+      "small": 12,
+      "control": 16,
+      "tray": 24
+    },
+    "size": {
+      "touchMinimum": 64,
+      "audio": 64,
+      "token": 72,
+      "phoneMargin": 20,
+      "tabletMargin": 32
+    },
+    "stroke": {
+      "hairline": 1,
+      "highlightTop": 1.5,
+      "control": 2
+    },
+    "typography": {
+      "display": {
+        "size": 32,
+        "lineHeight": 40,
+        "weight": 700,
+        "textStyle": "largeTitle",
+        "swiftWeight": "bold",
+        "family": "system rounded with platform CJK fallback",
+        "dynamicType": true
+      },
+      "title": {
+        "size": 28,
+        "lineHeight": 36,
+        "weight": 700,
+        "textStyle": "title",
+        "swiftWeight": "bold",
+        "family": "system rounded with platform CJK fallback",
+        "dynamicType": true
+      },
+      "heading": {
+        "size": 22,
+        "lineHeight": 30,
+        "weight": 800,
+        "textStyle": "title2",
+        "swiftWeight": "heavy",
+        "family": "system rounded with platform CJK fallback",
+        "dynamicType": true
+      },
+      "body": {
+        "size": 20,
+        "lineHeight": 28,
+        "weight": 500,
+        "textStyle": "title3",
+        "swiftWeight": "medium",
+        "family": "system rounded with platform CJK fallback",
+        "dynamicType": true
+      },
+      "label": {
+        "size": 20,
+        "lineHeight": 26,
+        "weight": 600,
+        "textStyle": "title3",
+        "swiftWeight": "semibold",
+        "family": "system rounded with platform CJK fallback",
+        "dynamicType": true
+      },
+      "support": {
+        "size": 17,
+        "lineHeight": 24,
+        "weight": 500,
+        "textStyle": "body",
+        "swiftWeight": "medium",
+        "family": "system rounded with platform CJK fallback",
+        "dynamicType": true
+      },
+      "caption": {
+        "size": 13,
+        "lineHeight": 18,
+        "weight": 400,
+        "textStyle": "footnote",
+        "swiftWeight": "regular",
+        "family": "system rounded with platform CJK fallback",
+        "dynamicType": true
+      }
+    },
+    "motion": {
+      "restDepth": 4,
+      "pressedDepth": 1,
+      "dragDepth": 6,
+      "trayDepth": 6,
+      "pressTravel": 3,
+      "dragScale": 1.08,
+      "dragRotation": 0,
+      "pressDuration": 0.1,
+      "liftDuration": 0.16,
+      "returnDuration": 0.24,
+      "successDuration": 0.35,
+      "completionDuration": 0.6,
+      "springResponse": 0.35,
+      "springDamping": 0.65,
+      "reduceMotionFadeDuration": 0.15,
+      "successTravel": 4,
+      "snapRadius": 36,
+      "gestureTolerance": 12
+    },
+    "material": {
+      "highlightTopAlpha": 0.45,
+      "highlightLeftAlpha": 0.3,
+      "lightDirection": "top-left",
+      "texture": "none by default; low contrast optional"
+    },
+    "shadow": {
+      "raised": {
+        "color": "#3E2723",
+        "x": 0,
+        "y": 8,
+        "cssBlur": 16,
+        "swiftUIRadius": 8.0,
+        "alpha": 0.18,
+        "inset": false,
+        "mapping": "Approximation; verify on device"
+      },
+      "pressed": {
+        "color": "#3E2723",
+        "x": 0,
+        "y": 2,
+        "cssBlur": 4,
+        "swiftUIRadius": 2.0,
+        "alpha": 0.12,
+        "inset": false,
+        "mapping": "Approximation; verify on device"
+      },
+      "dragged": {
+        "color": "#3E2723",
+        "x": 0,
+        "y": 12,
+        "cssBlur": 28,
+        "swiftUIRadius": 14.0,
+        "alpha": 0.25,
+        "inset": false,
+        "mapping": "Approximation; verify on device"
+      },
+      "tray": {
+        "color": "#3E2723",
+        "x": 0,
+        "y": 12,
+        "cssBlur": 24,
+        "swiftUIRadius": 12.0,
+        "alpha": 0.08,
+        "inset": false,
+        "mapping": "Approximation; verify on device"
+      },
+      "slot": {
+        "color": "#3E2723",
+        "x": 0,
+        "y": 3,
+        "cssBlur": 6,
+        "swiftUIRadius": 3.0,
+        "alpha": 0.22,
+        "inset": true,
+        "mapping": "Approximation; verify on device"
+      },
+      "secondary": {
+        "color": "#3E2723",
+        "x": 0,
+        "y": 2,
+        "cssBlur": 3,
+        "swiftUIRadius": 1.5,
+        "alpha": 0.08,
+        "inset": true,
+        "mapping": "Approximation; verify on device"
+      }
+    }
+  },
+  "component": {
+    "primaryButton": {
+      "fill": "#8C5835",
+      "ink": "#FFFFFF",
+      "radius": 16,
+      "minimumHitSize": 64
+    },
+    "secondaryButton": {
+      "fill": "#ECE4D0",
+      "ink": "#3E2723",
+      "radius": 16,
+      "minimumHitSize": 64
+    },
+    "audioButton": {
+      "fill": "#E6AA38",
+      "ink": "#643A1B",
+      "radius": 16,
+      "minimumHitSize": 64,
+      "shape": "circle",
+      "diameter": 64
+    },
+    "learningToken": {
+      "fill": "#C87A3E",
+      "ink": "#2B1C18",
+      "radius": 16,
+      "minimumHitSize": 64,
+      "size": 72,
+      "dragScale": 1.08
+    },
+    "dropSlot": {
+      "fill": "#D8CEBA",
+      "ink": "#7A6658",
+      "radius": 16,
+      "minimumHitSize": 64
+    },
+    "questionTray": {
+      "fill": "#FBF8F1",
+      "ink": "#3E2723",
+      "radius": 24,
+      "minimumHitSize": 64
+    },
+    "gameCard": {
+      "fill": "#F8F4EC",
+      "ink": "#3E2723",
+      "radius": 24,
+      "minimumHitSize": 64
+    }
+  },
+  "theme": {
+    "math": {
+      "accent": "#4A7C59",
+      "accentInk": "#FFFFFF",
+      "usage": "Decorative subject accent only; never overrides feedback or primary controls"
+    },
+    "chinese": {
+      "accent": "#C87A3E",
+      "accentInk": "#2B1C18",
+      "usage": "Decorative subject accent only; never overrides feedback or primary controls"
+    },
+    "english": {
+      "accent": "#E6AA38",
+      "accentInk": "#2B1C18",
+      "usage": "Decorative subject accent only; never overrides feedback or primary controls"
+    },
+    "art": {
+      "accent": "#E8DCB8",
+      "accentInk": "#2B1C18",
+      "usage": "Decorative subject accent only; never overrides feedback or primary controls"
+    }
+  },
+  "contrastPairs": [
+    {
+      "name": "primary label",
+      "foreground": "#FFFFFF",
+      "background": "#8C5835",
+      "minimum": 4.5
+    },
+    {
+      "name": "token numeral",
+      "foreground": "#2B1C18",
+      "background": "#C87A3E",
+      "minimum": 4.5
+    },
+    {
+      "name": "audio symbol",
+      "foreground": "#643A1B",
+      "background": "#E6AA38",
+      "minimum": 3
+    },
+    {
+      "name": "secondary body",
+      "foreground": "#7A6658",
+      "background": "#F8F4EC",
+      "minimum": 4.5
+    },
+    {
+      "name": "hint body",
+      "foreground": "#643A1B",
+      "background": "#FCF6EA",
+      "minimum": 4.5
+    },
+    {
+      "name": "success body",
+      "foreground": "#355940",
+      "background": "#E6F0E9",
+      "minimum": 4.5
+    },
+    {
+      "name": "success symbol",
+      "foreground": "#FFFFFF",
+      "background": "#4A7C59",
+      "minimum": 3
+    },
+    {
+      "name": "slot outline",
+      "foreground": "#643A1B",
+      "background": "#D8CEBA",
+      "minimum": 3
+    }
+  ]
+}
