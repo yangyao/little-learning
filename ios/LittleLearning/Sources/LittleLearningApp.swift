@@ -4,6 +4,7 @@ import SwiftUI
 struct LittleLearningApp: App {
     @StateObject private var store: GameStore
     @StateObject private var collection: CollectionStore
+    @StateObject private var usage=UsageStore()
     init() {
         let library=CollectionStore(profilesEnabled:true)
         _collection=StateObject(wrappedValue:library)
@@ -14,6 +15,7 @@ struct LittleLearningApp: App {
             RootView()
                 .environmentObject(store)
                 .environmentObject(collection)
+                .environmentObject(usage)
                 .preferredColorScheme(.light)
                 .environment(\.locale, Locale(identifier: "zh_Hans_CN"))
                 #if os(macOS)

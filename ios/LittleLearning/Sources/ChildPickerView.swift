@@ -6,6 +6,7 @@ import LearningCore
 struct ChildPickerView: View {
     @EnvironmentObject private var store: GameStore
     @EnvironmentObject private var collection: CollectionStore
+    @EnvironmentObject private var usage: UsageStore
     var body: some View {
         VStack(spacing:24) {
             Spacer(minLength:16)
@@ -19,6 +20,9 @@ struct ChildPickerView: View {
                             VStack(spacing:16) {
                                 Text(child.avatar).font(.system(size:56))
                                 Text(child.name).woodText(Wood.Typography.heading)
+                                Text(usage.remaining(child) == 0 ? "休息 \(usage.restLabel(child))" : "可用 \(usage.remainingLabel(child))")
+                                    .font(.system(size:14,weight:.medium)).monospacedDigit().lineLimit(1).minimumScaleFactor(0.8)
+                                    .foregroundStyle(Wood.Palette.textSecondary)
                             }.frame(maxWidth:.infinity).padding(.vertical,16)
                         }
                     }.buttonStyle(IllustrationButtonStyle())

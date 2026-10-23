@@ -73,6 +73,7 @@ import Foundation
         try RulerStoreChecks.run(root:root,defaults:defaults)
         try ChildStoreChecks.run(root:root,defaults:defaults)
         try PointsSyncStoreChecks.run(root:root,defaults:defaults)
+        try UsageStoreChecks.run(root:root)
         print("PASS: actual store atomic awards, restart/replay protection, redemption/refund durability, failed-write rollback, corrupt-file preservation and legacy import.")
     }
 }

@@ -6,18 +6,25 @@ import LearningCore
 struct GameDrawerView: View {
     @EnvironmentObject private var store: GameStore
     @EnvironmentObject private var collection: CollectionStore
+    @EnvironmentObject private var usage: UsageStore
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing:Wood.Spacing.md) {
                 VStack(spacing:12) {
                     HStack(alignment:.firstTextBaseline) {
                         Button { store.showChildPicker() } label: {
-                            HStack(spacing:5) {
-                                Text(collection.activeChild?.avatar ?? "🐰")
-                                Text(collection.activeChild?.name ?? "选人")
-                                Image(systemName:"chevron.down").font(.system(size:12,weight:.bold))
-                            }.font(.system(size:20,weight:.semibold)).lineLimit(1).frame(minHeight:48)
-                        }.buttonStyle(IllustrationButtonStyle()).accessibilityLabel("当前是\(collection.activeChild?.name ?? "未选择")，点击切换孩子").accessibilityIdentifier("drawer.child")
+                            VStack(alignment:.leading,spacing:2) {
+                                HStack(spacing:5) {
+                                    Text(collection.activeChild?.avatar ?? "🐰")
+                                    Text(collection.activeChild?.name ?? "选人")
+                                    Image(systemName:"chevron.down").font(.system(size:12,weight:.bold))
+                                }.font(.system(size:20,weight:.semibold)).lineLimit(1)
+                                if let child=collection.activeChild {
+                                    Text("剩余 \(usage.remainingLabel(child))")
+                                        .font(.system(size:12,weight:.medium)).monospacedDigit().foregroundStyle(Wood.Palette.textSecondary)
+                                }
+                            }.frame(minHeight:48)
+                        }.buttonStyle(IllustrationButtonStyle()).accessibilityLabel("当前是\(collection.activeChild?.name ?? "未选择")，剩余\(collection.activeChild.map { usage.remainingLabel($0) } ?? "30:00")，点击切换孩子").accessibilityIdentifier("drawer.child")
                         Spacer()
                         Button { store.save();store.showsPointsSync=true } label: {
                             Image(systemName:"qrcode.viewfinder").font(.system(size:22)).frame(width:44,height:48)
