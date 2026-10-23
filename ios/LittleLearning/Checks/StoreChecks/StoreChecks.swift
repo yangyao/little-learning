@@ -70,6 +70,7 @@ import Foundation
         try StudyStoreChecks.run(root:root,defaults:defaults)
         try await NewGamesStoreChecks.run(root:root,defaults:defaults)
         try FunStoreChecks.run(root:root,defaults:defaults)
+        try RulerStoreChecks.run(root:root,defaults:defaults)
         print("PASS: actual store atomic awards, restart/replay protection, redemption/refund durability, failed-write rollback, corrupt-file preservation and legacy import.")
     }
 }

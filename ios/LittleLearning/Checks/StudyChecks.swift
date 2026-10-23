@@ -2,7 +2,7 @@ import Foundation
 
 enum StudyChecks {
     static func run() throws {
-        precondition(StudyCatalog.all.count == 39)
+        precondition(StudyCatalog.all.count == 42)
         var playable=Set<String>()
         for game in LearningGame.allCases where game != .printing {
             let groups=StudyCatalog.groups(for:game)

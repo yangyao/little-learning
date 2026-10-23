@@ -214,6 +214,7 @@ public struct CollectionProgress: Codable, Equatable, Sendable {
     public var tangram = TangramSession()
     public var delivery = RouteSession()
     public var beads = BeadSession()
+    public var ruler = RulerSession()
     public var funTime = FunTimeBank()
     public var funArrows = ArrowEscapeSession()
     public var funAnts = AntCarrySession()
@@ -221,7 +222,7 @@ public struct CollectionProgress: Codable, Equatable, Sendable {
     public var rewards = RewardLedger()
     public var numberLine: NumberLineGame?
     public init() {}
-    private enum CodingKeys: String, CodingKey { case sharing, words, clock, matches, fruits, printing, rewards, numberLine, study, tangram, delivery, beads, funTime, funArrows, funAnts }
+    private enum CodingKeys: String, CodingKey { case ruler, sharing, words, clock, matches, fruits, printing, rewards, numberLine, study, tangram, delivery, beads, funTime, funArrows, funAnts }
     public init(from decoder: Decoder) throws {
         let c=try decoder.container(keyedBy:CodingKeys.self)
         sharing=try c.decode(SharingSession.self,forKey:.sharing)
@@ -235,13 +236,14 @@ public struct CollectionProgress: Codable, Equatable, Sendable {
         funAnts=try c.decodeIfPresent(AntCarrySession.self,forKey:.funAnts) ?? .init()
         tangram=try c.decodeIfPresent(TangramSession.self,forKey:.tangram) ?? .init()
         delivery=try c.decodeIfPresent(RouteSession.self,forKey:.delivery) ?? .init()
+        ruler=try c.decodeIfPresent(RulerSession.self,forKey:.ruler) ?? .init()
         beads=try c.decodeIfPresent(BeadSession.self,forKey:.beads) ?? .init()
         study=try c.decodeIfPresent(StudyProgress.self,forKey:.study) ?? .init()
         rewards=try c.decodeIfPresent(RewardLedger.self,forKey:.rewards) ?? .init()
         numberLine=try c.decodeIfPresent(NumberLineGame.self,forKey:.numberLine)
     }
     public var isValid: Bool {
-        funTime.isValid(in:rewards) && funArrows.isValid && funAnts.isValid && tangram.isValid && delivery.isValid && beads.isValid && study.isValid && rewards.isValid && (numberLine == nil || numberLine?.encoded().flatMap(NumberLineGame.restore) != nil) && sharing.isValid && clock.isValid && matches.isValid && fruits.isValid && printing.isValid && LearningGame.allCases.filter(\.isWorkshop).allSatisfy {
+        ruler.isValid && funTime.isValid(in:rewards) && funArrows.isValid && funAnts.isValid && tangram.isValid && delivery.isValid && beads.isValid && study.isValid && rewards.isValid && (numberLine == nil || numberLine?.encoded().flatMap(NumberLineGame.restore) != nil) && sharing.isValid && clock.isValid && matches.isValid && fruits.isValid && printing.isValid && LearningGame.allCases.filter(\.isWorkshop).allSatisfy {
             words[$0.rawValue]?.isValid(for:WorkshopContent.questions(for:$0)) == true
         }
     }

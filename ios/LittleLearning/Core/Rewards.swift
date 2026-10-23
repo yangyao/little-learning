@@ -31,6 +31,9 @@ public enum RewardCatalog {
     public static func puzzle(_ game: LearningGame,_ index: Int) -> RewardChallenge {
         .init(id:"\(game.rawValue):level-\(index+1)",title:"\(game.title) · 第 \(index+1) 关",points:game == .tangram || game == .delivery ? 3 : 1)
     }
+    public static func ruler(_ task: RulerTask) -> RewardChallenge {
+        .init(id:task.identity,title:"断尺侦探 · \(task.prompt)",points:task.mode == .explore ? 3 : 1)
+    }
     public static let all: [RewardChallenge] = {
         var result: [RewardChallenge]=[]
         for start in 0...20 { for change in -20...20 where change != 0 && (0...20).contains(start+change) {
@@ -38,6 +41,7 @@ public enum RewardCatalog {
         } }
         result += SharingTask.all.map(sharing)
         for game in LearningGame.allCases where game.isWorkshop { result += WorkshopContent.questions(for:game).map { workshop(game,$0) } }
+        result += RulerTask.all.map(ruler)
         result += ClockTask.all.map(clock)
         result += MatchPuzzle.all.map(matches)
         result += (0..<FruitSession.levelCount).map(sorting)
@@ -59,6 +63,7 @@ public enum RewardCatalog {
         case .tangram:return puzzle(game,progress.tangram.index)
         case .delivery:return puzzle(game,progress.delivery.index)
         case .beads:return puzzle(game,progress.beads.index)
+        case .ruler:return ruler(progress.ruler.task)
         case .printing: return nil
         default:
             guard game.isWorkshop, let session=progress.words[game.rawValue] else { return nil }
@@ -82,10 +87,14 @@ public enum RewardCatalog {
                 case .tangram:correct=progress.tangram.phase == .correct
                 case .delivery:correct=progress.delivery.phase == .correct
                 case .beads:correct=progress.beads.phase == .correct
+                case .ruler:correct=progress.ruler.phase == .correct
                 default: correct=progress.words[game.rawValue]?.phase == .correct
                 }
                 if correct, let challenge=current(game,in:progress) { result.append(challenge) }
                 continue
+            }
+            if game == .ruler {
+                if progress.ruler.phase == .correct { result.append(ruler(progress.ruler.task)) };continue
             }
             if game.isNewPuzzle {
                 let correct=game == .tangram ? progress.tangram.phase == .correct : game == .delivery ? progress.delivery.phase == .correct : progress.beads.phase == .correct

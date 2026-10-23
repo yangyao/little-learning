@@ -21,6 +21,7 @@ struct CollectionGameActions: View {
     @EnvironmentObject private var library: CollectionStore
     var body: some View {
         if library.isGroupFinished(game) { StudyFinishedActions(game:game) }
+        else if game == .ruler { RulerActions() }
         else if game.isNewPuzzle { NewPuzzleActions(game:game) }
         else if game.isWorkshop { workshop }
         else {

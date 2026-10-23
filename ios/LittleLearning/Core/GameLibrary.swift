@@ -1,7 +1,7 @@
 import Foundation
 
 public enum LearningGame: String, Codable, CaseIterable, Identifiable, Sendable {
-    case numberLine, sharing, pinyin, characters, idioms, bakery, clock, matches, sorting, printing, tangram, delivery, beads
+    case numberLine, ruler, sharing, pinyin, characters, idioms, bakery, clock, matches, sorting, printing, tangram, delivery, beads
     public var id: String { rawValue }
     public var title: String {
         switch self {
@@ -14,6 +14,7 @@ public enum LearningGame: String, Codable, CaseIterable, Identifiable, Sendable 
         case .clock: return "滴答时钟"
         case .matches: return "巧移火柴"
         case .sorting: return "果篮分拣"
+        case .ruler: return "断尺侦探"
         case .printing: return "落叶拓印"
         case .tangram: return "七巧板拼图"
         case .delivery: return "小鸭送信"
@@ -31,6 +32,7 @@ public enum LearningGame: String, Codable, CaseIterable, Identifiable, Sendable 
         case .clock: return "转指针，认时间"
         case .matches: return "动一根，算式变对"
         case .sorting: return "同款水果装一罐"
+        case .ruler: return "少了刻度，也能量长度"
         case .printing: return "选叶子，盖一幅画"
         case .tangram: return "移木片，拼轮廓"
         case .delivery: return "排指令，送封信"
@@ -48,6 +50,7 @@ public enum LearningGame: String, Codable, CaseIterable, Identifiable, Sendable 
         case .clock: return "clock.fill"
         case .matches: return "puzzlepiece.fill"
         case .sorting: return "carrot.fill"
+        case .ruler: return "ruler.fill"
         case .printing: return "paintpalette.fill"
         case .tangram: return "square.on.square.fill"
         case .delivery: return "envelope.fill"

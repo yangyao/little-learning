@@ -31,6 +31,7 @@ struct CollectionGameView: View {
                     case .tangram:TangramGameView()
                     case .delivery:DeliveryGameView()
                     case .beads:BeadsGameView()
+                    case .ruler:RulerGameView()
                     case .numberLine: EmptyView()
                     }
                     }
@@ -55,6 +56,7 @@ struct CollectionGameView: View {
         case .tangram:return "\(library.progress.tangram.index)"
         case .delivery:return "\(library.progress.delivery.index)"
         case .beads:return "\(library.progress.beads.index)"
+        case .ruler:return "\(library.progress.ruler.index)"
         default: return ""
         }
     }
@@ -71,6 +73,7 @@ struct CollectionGameView: View {
             case .matches: text="\(library.progress.matches.puzzle.rule.title)，让等式成立。点一根火柴拿起，再点虚线位置放下；也可以直接拖过去。"
             case .tangram:text="选一块木片，再点拼板格子，把木片左上角放在那里。可以旋转、翻面，也可以拖动已放的木片。七块要刚好盖满轮廓，不能重叠。"
             case .delivery:text="小鸭开始面向右边。前进走一格，左右转只改变方向。排好指令，点走一遍，送到邮筒。" + (library.progress.delivery.task.pickup == nil ? "" : "先到信封处取信。")
+            case .ruler:text=library.progress.ruler.task.prompt + "。尺子上的一格表示一厘米。量长度时数间隔，缺刻度题先点两个现存刻度。"
             case .beads:text="观察珠子的顺序，点空位，再选珠子，把规律补完整。"
             case .sorting: text="先点一个果罐，再点另一个。顶端的水果只能放进空罐，或相同水果上面。四颗同款装一罐。"
             default: text="选材料和颜色，在画纸上点一下盖章。作品会自动保留。"

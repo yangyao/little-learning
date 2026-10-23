@@ -54,5 +54,6 @@ struct CoreChecks {
         try StudyChecks.run()
         try NewGamesChecks.run()
         try FunChecks.run()
+        try RulerChecks.run()
     }
 }

@@ -16,6 +16,7 @@ public struct StudyGroup: Identifiable, Sendable {
         case .clock: return RewardCatalog.clock(ClockTask.all[index])
         case .matches: return RewardCatalog.matches(MatchPuzzle.all[index])
         case .sorting: return RewardCatalog.sorting(index)
+        case .ruler:return RewardCatalog.ruler(RulerTask.all[index])
         case .tangram,.delivery,.beads:return RewardCatalog.puzzle(game,index)
         default: return RewardCatalog.workshop(game,WorkshopContent.questions(for:game)[index])
         }
@@ -83,6 +84,9 @@ public enum StudyCatalog {
             group(.tangram,"tangram-\(tier)",["照分块拼","看轮廓拼","旋转挑战"][tier],["分块线提示位置，木片已经转好方向","没有分块线，自己找木片的位置","自己旋转和翻面，拼满整个轮廓"][tier],"按空间操作能力",Array((tier*8)..<(tier*8+8)))
             group(.delivery,"delivery-\(tier)",["认识方向","绕开障碍","取信再送信"][tier],["先认识前进、左转、右转","路变长了，先想好每次转弯","先去取信，再绕过树木送到邮筒"][tier],"按路线推理能力",Array((tier*12)..<(tier*12+12)))
             group(.beads,"beads-\(tier)",["接着串","补中间","形状与颜色"][tier],["观察一组珠子，接着串下一颗","找到重复的一组，补好两个缺口","形状和颜色各有规律，要一起看"][tier],tier == 0 ? "学龄前参考" : "规律进阶",Array((tier*20)..<(tier*20+20)))
+        }
+        for tier in 0..<3 {
+            group(.ruler,"ruler-\(tier)",["量一量","没有零也能量","缺刻度挑战"][tier],["对齐0刻度，量长度和补数字","两端对上刻线，数间隔或相减","点两个现存刻度，寻找不同长度"][tier],tier == 0 ? "认识10以内数字" : tier == 1 ? "理解间隔／会简单减法" : "长度推理挑战",Array((tier*8)..<(tier*8+8)))
         }
         return result
     }()

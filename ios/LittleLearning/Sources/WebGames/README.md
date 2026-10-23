@@ -34,4 +34,4 @@ The drawer lists a slot only when its local index.html exists. Xcode and the Mac
 
 Games must start paused and work offline. A local-only content security policy blocks external resources and navigation; paths are normalized before access. Never award learning points from JavaScript or in-game scores.
 
-With no optional bundles, the play list is intentionally empty. All 12 native learning games work independently.
+With no optional bundles, the play list is intentionally empty. All 13 native learning games work independently.

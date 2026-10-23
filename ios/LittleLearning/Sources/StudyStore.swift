@@ -19,6 +19,7 @@ extension CollectionStore {
         case .tangram:return progress.tangram.index
         case .delivery:return progress.delivery.index
         case .beads:return progress.beads.index
+        case .ruler:return progress.ruler.index
         default: return session(game).index
         }
     }
@@ -36,6 +37,7 @@ extension CollectionStore {
         case .tangram:state.tangram = .init(startAt:index)
         case .delivery:state.delivery = .init(startAt:index)
         case .beads:state.beads = .init(startAt:index)
+        case .ruler:state.ruler = .init(startAt:index)
         default: state.words[game.rawValue] = .init(startAt:index)
         }
     }
@@ -81,6 +83,7 @@ extension CollectionStore {
         case .tangram:solved=progress.tangram.phase == .correct
         case .delivery:solved=progress.delivery.phase == .correct
         case .beads:solved=progress.beads.phase == .correct
+        case .ruler:solved=progress.ruler.phase == .correct
         default: solved=session(game).phase == .correct
         }
         guard solved else { return }
