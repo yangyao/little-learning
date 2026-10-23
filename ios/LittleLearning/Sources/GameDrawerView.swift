@@ -64,7 +64,7 @@ struct GameDrawerView: View {
     private func learningGames(margin: CGFloat) -> some View {
         ScrollView {
             LazyVGrid(columns:[GridItem(.adaptive(minimum:150),spacing:12)],spacing:12) {
-                ForEach(LearningGame.allCases) { game in
+                ForEach(LearningGame.allCases.filter { $0 != .printing }) { game in
                     Button { store.open(game) } label: {
                         Tray(padding:12) {
                             VStack(alignment:.leading,spacing:6) {
