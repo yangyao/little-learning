@@ -50,8 +50,7 @@ struct NumberLineView: View {
             Spacer(minLength: 0)
             StudyHeaderTitle(game:.numberLine)
             Spacer(minLength: 0)
-            WoodIconButton(symbol: "speaker.wave.2.fill", label: "朗读题目", yellow: true) { store.readQuestion() }
-                .accessibilityIdentifier("game.read")
+            Color.clear.frame(width:Wood.Size.touchMinimum,height:Wood.Size.touchMinimum).accessibilityHidden(true)
         }
         .padding(.horizontal, Wood.Size.phoneMargin).padding(.top, Wood.Spacing.sm).padding(.bottom, Wood.Spacing.sm)
     }

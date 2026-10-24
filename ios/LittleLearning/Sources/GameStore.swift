@@ -98,16 +98,6 @@ final class GameStore: ObservableObject {
         collection.save()
     }
     func stopSpeech() { speech.stopSpeaking(at: .immediate) }
-    func readQuestion() {
-        stopSpeech()
-        let text: String
-        switch game.phase {
-        case .complete: text = "这一轮跳完了！加法往右跳，减法往左跳。"
-        case .correct: text = "跳对了！\(game.question.equation.replacingOccurrences(of: "+", with: "加").replacingOccurrences(of: "−", with: "减")) 等于 \(game.question.answer)。"
-        case .playing: text = game.hint ?? game.question.spokenQuestion
-        }
-        speak(text)
-    }
     func speak(_ text: String, language: String = "zh-CN") {
         stopSpeech()
         let utterance = AVSpeechUtterance(string: text)

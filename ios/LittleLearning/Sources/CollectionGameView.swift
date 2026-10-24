@@ -14,7 +14,11 @@ struct CollectionGameView: View {
                 Spacer(minLength:0)
                 StudyHeaderTitle(game:game)
                 Spacer(minLength:0)
-                WoodIconButton(symbol:"speaker.wave.2.fill",label:game == .bakery ? "听英文单词" : "朗读提示",yellow:true) { read() }.accessibilityIdentifier("library.read")
+                if hasSpeech {
+                    WoodIconButton(symbol:"speaker.wave.2.fill",label:game == .bakery ? "听英文单词" : "朗读提示",yellow:true) { read() }.accessibilityIdentifier("library.read")
+                } else {
+                    Color.clear.frame(width:Wood.Size.touchMinimum,height:Wood.Size.touchMinimum).accessibilityHidden(true)
+                }
             }.padding(.horizontal,Wood.Size.phoneMargin).padding(.vertical,Wood.Spacing.sm)
             ScrollViewReader { proxy in
             ScrollView {
@@ -60,26 +64,14 @@ struct CollectionGameView: View {
         default: return ""
         }
     }
+    private var hasSpeech: Bool {
+        game.isWorkshop && !library.isGroupFinished(game) && library.session(game).phase != .complete
+    }
     private func read() {
-        if library.isGroupFinished(game) { store.speak("这一组完成了，可以换一组或再复习。");return }
-        if game.isWorkshop {
-            let s=library.session(game), q=WorkshopContent.questions(for:game)[s.index]
-            store.speak(game == .bakery ? q.reading : (s.phase == .playing ? q.clue : q.word),language:game == .bakery ? "en-US" : "zh-CN")
-        } else {
-            let text: String
-            switch game {
-            case .sharing: let t=library.progress.sharing.task; text="把 \(t.total) 个\(t.name)，平均分给 \(t.bowls) 位朋友。点一盘，分一个；点拿回，可以重新分。" + (t.remainder > 0 ? "每盘一样多，不够再分一轮的留在篮子里。" : "")
-            case .clock: text=library.progress.clock.task.prompt
-            case .matches: text="\(library.progress.matches.puzzle.rule.title)，让等式成立。点一根火柴拿起，再点虚线位置放下；也可以直接拖过去。"
-            case .tangram:text="选一块木片，再点拼板格子，把木片左上角放在那里。可以旋转、翻面，也可以拖动已放的木片。七块要刚好盖满轮廓，不能重叠。"
-            case .delivery:text="小鸭开始面向右边。前进走一格，左右转只改变方向。排好指令，点走一遍，送到邮筒。" + (library.progress.delivery.task.pickup == nil ? "" : "先到信封处取信。")
-            case .ruler:text=library.progress.ruler.task.prompt + "。尺子上的一格表示一厘米。量长度时数间隔，缺刻度题先点两个现存刻度。"
-            case .beads:text="观察珠子的顺序，点空位，再选珠子，把规律补完整。"
-            case .sorting: text="先点一个果罐，再点另一个。顶端的水果只能放进空罐，或相同水果上面。四颗同款装一罐。"
-            default: text="选材料和颜色，在画纸上点一下盖章。作品会自动保留。"
-            }
-            store.speak(text)
-        }
+        guard hasSpeech else { return }
+        let session=library.session(game),question=WorkshopContent.questions(for:game)[session.index]
+        store.speak(game == .bakery ? question.reading : (session.phase == .playing ? question.clue : question.word),
+                    language:game == .bakery ? "en-US" : "zh-CN")
     }
 }
 
