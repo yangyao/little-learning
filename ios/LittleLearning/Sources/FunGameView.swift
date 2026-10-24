@@ -16,7 +16,7 @@ struct FunGameView: View {
     var body: some View {
         VStack(spacing:0) {
             HStack(spacing:8) {
-                WoodIconButton(symbol:"arrow.left",label:"回游戏抽屉") { pause();store.closeFun() }.accessibilityIdentifier("fun.back")
+                WoodIconButton(symbol:"arrow.left",label:"返回首页") { pause();store.closeFun() }.accessibilityIdentifier("fun.back")
                 Spacer(minLength:0)
                 VStack(spacing:4) {
                     Text(game.title).woodText(Wood.Typography.heading)

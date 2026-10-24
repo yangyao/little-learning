@@ -1,4 +1,4 @@
-# 游戏抽屉 · Little Learning
+# 千臻乐园 · Little Learning
 
 给家里小朋友做的简体中文学习小游戏集合。SwiftUI 原生界面，离线使用，没有账号、广告、订阅或后端。
 
@@ -88,7 +88,7 @@ open ios/LittleLearning/LittleLearning.xcodeproj
 ```bash
 cd ios/LittleLearning
 zsh scripts/package_mac_preview.sh
-open build/游戏抽屉.app
+open build/千臻乐园.app
 
 zsh scripts/check_core.sh
 zsh scripts/check_store.sh

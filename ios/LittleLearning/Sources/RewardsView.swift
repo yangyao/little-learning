@@ -28,7 +28,7 @@ struct RewardsView: View {
     var body: some View {
         VStack(spacing:0) {
             HStack {
-                WoodIconButton(symbol:"arrow.left",label:"回游戏抽屉") { store.showsRewards=false; library.rewardMessage=nil }
+                WoodIconButton(symbol:"arrow.left",label:"返回首页") { store.showsRewards=false; library.rewardMessage=nil }
                     .accessibilityIdentifier("rewards.back")
                 Spacer()
                 Text("积分兑换").woodText(Wood.Typography.heading)

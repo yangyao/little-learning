@@ -10,7 +10,7 @@ struct CollectionGameView: View {
     var body: some View {
         VStack(spacing:0) {
             HStack(spacing:Wood.Spacing.sm) {
-                WoodIconButton(symbol:"arrow.left",label:"回游戏抽屉") { library.save(); store.close() }.accessibilityIdentifier("library.back")
+                WoodIconButton(symbol:"arrow.left",label:"返回首页") { library.save(); store.close() }.accessibilityIdentifier("library.back")
                 Spacer(minLength:0)
                 StudyHeaderTitle(game:game)
                 Spacer(minLength:0)

@@ -21,7 +21,7 @@ private final class PointsCamera: NSObject,ObservableObject,AVCaptureMetadataOut
                     if granted { self.configure() } else { self.message="请允许相机访问，才能扫描同步二维码。" }
                 }
             }
-        default:message="相机未获授权。请到系统设置中允许「游戏抽屉」使用相机。"
+        default:message="相机未获授权。请到系统设置中允许「千臻乐园」使用相机。"
         }
     }
     private func configure() {

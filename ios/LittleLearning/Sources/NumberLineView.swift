@@ -45,7 +45,7 @@ struct NumberLineView: View {
 
     private var header: some View {
         HStack(spacing: Wood.Spacing.sm) {
-            WoodIconButton(symbol: "arrow.left", label: "回游戏抽屉") { store.close() }
+            WoodIconButton(symbol: "arrow.left", label: "返回首页") { store.close() }
                 .accessibilityIdentifier("game.back")
             Spacer(minLength: 0)
             StudyHeaderTitle(game:.numberLine)
