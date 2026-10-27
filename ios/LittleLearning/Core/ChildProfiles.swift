@@ -10,7 +10,18 @@ public enum FamilyChild: String, CaseIterable, Identifiable, Codable, Sendable {
 
 public struct FamilyProgress: Codable, Sendable {
     public var version = 1
+    public var syncDeviceID=UUID()
+    public var syncPending: ServerOperation?
+    public var syncPlayGrants: Set<String>=[]
     public var children: [String:CollectionProgress]
+    private enum CodingKeys: String,CodingKey {case version,children,syncDeviceID,syncPending,syncPlayGrants}
+    public init(from decoder: Decoder) throws {
+        let c=try decoder.container(keyedBy:CodingKeys.self)
+        version=try c.decode(Int.self,forKey:.version);children=try c.decode([String:CollectionProgress].self,forKey:.children)
+        syncDeviceID=try c.decodeIfPresent(UUID.self,forKey:.syncDeviceID) ?? UUID()
+        syncPending=try c.decodeIfPresent(ServerOperation.self,forKey:.syncPending)
+        syncPlayGrants=try c.decodeIfPresent(Set<String>.self,forKey:.syncPlayGrants) ?? []
+    }
     public init(legacy: CollectionProgress) {
         var fresh=CollectionProgress()
         fresh.numberLine = .fresh()

@@ -26,9 +26,9 @@ struct GameDrawerView: View {
                             }.frame(minHeight:48)
                         }.buttonStyle(IllustrationButtonStyle()).accessibilityLabel("当前是\(collection.activeChild?.name ?? "未选择")，剩余\(collection.activeChild.map { usage.remainingLabel($0) } ?? "30:00")，点击切换孩子").accessibilityIdentifier("drawer.child")
                         Spacer()
-                        Button { store.save();store.showsPointsSync=true } label: {
-                            Image(systemName:"qrcode.viewfinder").font(.system(size:22)).frame(width:44,height:48)
-                        }.buttonStyle(IllustrationButtonStyle()).accessibilityLabel("面对面同步积分").accessibilityIdentifier("drawer.sync")
+                        Button { Task { await collection.syncNow() } } label: {
+                            Image(systemName:collection.syncBusy ? "arrow.triangle.2.circlepath" : "checkmark.icloud").font(.system(size:20)).frame(width:44,height:48)
+                        }.buttonStyle(IllustrationButtonStyle()).accessibilityLabel(collection.syncStatus)
                         Button { collection.clearRewardNotice();store.showsRewards=true } label: {
                             HStack(spacing:6) {
                                 Image(systemName:"star.fill").foregroundStyle(Wood.Palette.hint)
@@ -52,6 +52,7 @@ struct GameDrawerView: View {
                         }
                     }.padding(5).background(Wood.Palette.secondaryFill,in:RoundedRectangle(cornerRadius:16))
                 }.frame(maxWidth:1000).padding(.horizontal,margin(geometry))
+                Text(collection.syncStatus).font(.system(size:12)).foregroundStyle(Wood.Palette.textSecondary)
                 ZStack {
                     learningGames(margin:margin(geometry))
                         .opacity(store.drawerCategory == .learning ? 1 : 0)

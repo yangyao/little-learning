@@ -64,7 +64,7 @@ struct FunGameView: View {
         .onChange(of:web.ready) { _,ready in if !ready { pause() } }
         .alert("花5积分换5分钟？",isPresented:Binding(get:{screen.purchaseID != nil},set:{if !$0 { screen.purchaseID=nil }}),presenting:screen.purchaseID) { id in
             Button("取消",role:.cancel) {}
-            Button("兑换并开始") { if web.ready,library.buyFunTime(requestID:id) { resume() } }
+            Button("兑换并开始") { Task { if web.ready,await library.buyFunTimeOnServer() { resume() } } }
         } message: { _ in Text("扣除5积分，剩余\(max(0,library.progress.rewards.balance-5))积分。两款游戏共用时间，离开游戏就暂停。") }
     }
     private func pause() { web.pause(true);library.pauseFun() }

@@ -2,6 +2,7 @@ import Foundation
 
 @main struct StoreChecks {
     @MainActor static func main() async throws {
+        try await ServerChecks.run()
         let root=FileManager.default.temporaryDirectory.appendingPathComponent("LittleLearning-store-check-\(UUID())")
         try FileManager.default.createDirectory(at:root,withIntermediateDirectories:true)
         defer { try? FileManager.default.removeItem(at:root) }

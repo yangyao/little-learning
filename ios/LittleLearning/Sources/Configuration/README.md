@@ -1,0 +1,1 @@
+Copy NASConfig.example.json to NASConfig.json and set your NAS URL and shared token before building. The real config is ignored by Git. Without it, learning and local awards still work; redemption requires a configured NAS.

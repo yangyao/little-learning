@@ -1,0 +1,14 @@
+package com.family.littlelearning;
+import java.util.*;
+import static com.family.littlelearning.GameModel.*;
+public class RulesTest {
+ static int checks;
+ static void check(boolean pass,String name){checks++;if(!pass)throw new AssertionError(name);}
+ public static void main(String[] args){
+  List<Question> questions=ContentFixtures.questions();List<Route> routes=ContentFixtures.routes();check(questions.size()==24,"24 arithmetic questions");check(routes.size()==36,"36 routes");Set<String> ids=new HashSet<>();Profile p=new Profile();long now=1_000_000;
+  for(Question q:questions){check(ids.add(q.id),"arithmetic identity uniqueness");check(q.answer()>=0&&q.answer()<=10,"answer range");check(p.award(q.id,q.equation(),1,now),"first completion rewarded");check(!p.award(q.id,q.equation(),1,now),"repeat not rewarded");}
+  for(Route r:routes){check(ids.add(r.id),"route identity uniqueness");check(r.trace(r.solution).success(),"original solution valid "+r.index);List<String> alternate=new ArrayList<>(Arrays.asList("right","right","right","right"));alternate.addAll(r.solution);check(r.trace(alternate).success(),"equivalent route accepted "+r.index);check(!r.trace(Collections.emptyList()).success(),"empty route rejected");check(!r.trace(Arrays.asList("left")).success(),"turning alone does not reach goal");check(r.trace(Arrays.asList("left")).frames().get(1).point().equals(r.start),"turn does not move");check(!r.trace(Arrays.asList("right","forward")).success(),"boundary blocked");check(!r.trace(Arrays.asList("bad")).success(),"unknown command rejected");check(p.award(r.id,"送信",3,now),"route reward");check(!p.award(r.id,"送信",3,now),"route replay no reward");}
+  check(p.balance()==132,"24+36*3 total");check(!p.redeem("礼物",133,now),"overspend rejected");check(!p.redeem("",1,now),"empty title rejected");check(!p.redeem("礼物",0,now),"zero rejected");check(!p.redeem("礼物",-1,now),"negative rejected");check(p.balance()==132,"failed spend unchanged");check(p.redeem("绘本",12,now),"redeem");check(p.balance()==120,"balance deducted");String id=p.redemptions.get(0).id;check(p.undo(id),"undo once");check(!p.undo(id),"second undo rejected");check(p.balance()==132,"restored balance");
+  Profile second=new Profile();check(second.balance()==0,"children independent");second.consume(BUDGET-1000,now);check(second.remaining(now)==1000,"allowance consumed");second.consume(2000,now+2000);check(second.remaining(now+2000)==0,"exhausted");check(second.restUntil==now+2000+REST-1000,"rest starts at exact exhaustion");second.consume(5000,now+3000);check(second.used==BUDGET,"rest cannot consume more");second.refresh(second.restUntil-1);check(second.used==BUDGET,"rest not early");long end=second.restUntil;second.refresh(end);check(second.remaining(end)==BUDGET&&second.restUntil==0,"rest restores budget");check(p.used==0,"other child allowance unchanged");System.out.println("PASS: "+checks+" rule checks over all 60 challenges");
+ }
+}

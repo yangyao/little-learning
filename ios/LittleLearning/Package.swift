@@ -7,6 +7,6 @@ let package = Package(
     products: [.executable(name: "LittleLearning", targets: ["LittleLearning"])],
     targets: [
         .target(name: "LearningCore", path: "Core"),
-        .executableTarget(name: "LittleLearning", dependencies: ["LearningCore"], path: "Sources", resources: [.copy("WebGames")])
+        .executableTarget(name: "LittleLearning", dependencies: ["LearningCore"], path: "Sources", resources: [.copy("WebGames"), .copy("Configuration")])
     ]
 )

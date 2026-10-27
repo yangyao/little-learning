@@ -1,0 +1,12 @@
+.gradle/
+**/build/
+local.properties
+artifacts/
+dist/
+*.apk
+*.aab
+*.jks
+*.keystore
+app/src/main/assets/nas-config.json
+app/src/main/assets/webgames/*
+!app/src/main/assets/webgames/README.md

@@ -137,6 +137,8 @@ public struct PointsEntry: Identifiable, Codable, Equatable, Sendable {
 public struct RewardLedger: Codable, Equatable, Sendable {
     public private(set) var entries: [PointsEntry] = []
     public init() {}
+    mutating func entriesForServer(_ values: [PointsEntry]) { entries=values }
+    mutating func appendServerAward(_ entry: PointsEntry) { entries.append(entry) }
     public var balance: Int { entries.reduce(0) { $0 + $1.amount } }
     public var awardedIDs: Set<String> { Set(entries.filter { $0.kind == .award }.map(\.reference)) }
     public func hasAward(_ id: String) -> Bool { entries.contains { $0.kind == .award && $0.reference == id } }

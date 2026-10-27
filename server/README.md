@@ -32,6 +32,10 @@ chmod 600 config.json
 
 所有原始存档、导入文件、令牌、数据库和安装成品均不应提交。仓库仅含代码、示例配置和静态奖励规则目录。
 
+## 客户端接入
+
+仓库已提供 [iOS／macOS 客户端](../ios/LittleLearning/README.md) 和 [Android TV 客户端](../android-tv/README.md)。iOS 的私密设置位于 Sources/Configuration/NASConfig.json，Android 位于 app/src/main/assets/nas-config.json；两端都有不带令牌的 example 文件，真实设置被 Git 忽略。默认没有配置时可以离线学习，但不能兑换。初次接入旧设备前，先完成历史备份与导入。
+
 ## 协议
 
 `GET /healthz` 仅返回 `{"status":"ok"}`。`POST /v1/sync` 要求 `Authorization: Bearer <token>`，正文示意：

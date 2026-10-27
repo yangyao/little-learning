@@ -40,6 +40,7 @@ struct RewardsView: View {
                     Tray(padding:16) {
                         VStack(spacing:8) {
                             Text("可用积分").woodText(Wood.Typography.label)
+                            Text(library.syncStatus).font(.system(size:13)).foregroundStyle(Wood.Palette.textSecondary)
                             Text("\(ledger.balance)").woodText(Wood.Typography.display).monospacedDigit().accessibilityIdentifier("rewards.balance")
                         }.frame(maxWidth:.infinity)
                     }
@@ -58,10 +59,8 @@ struct RewardsView: View {
                                 Text("不能超过现有积分").font(.system(size:14)).foregroundStyle(Wood.Palette.textSecondary)
                             }
                             Button("确认兑换") {
-                                if library.redeem(title:screen.title,points:points,requestID:UUID()) {
-                                    screen.title=""; screen.points=""
-                                }
-                            }.buttonStyle(SecondaryWoodStyle()).disabled(!canRedeem).accessibilityIdentifier("rewards.redeem")
+                                Task { if await library.redeemOnServer(title:screen.title,points:points) { screen.title="";screen.points="" } }
+                            }.buttonStyle(SecondaryWoodStyle()).disabled(!canRedeem || library.syncBusy).accessibilityIdentifier("rewards.redeem")
                         }
                     }
                     if let message=library.rewardMessage {
@@ -79,7 +78,7 @@ struct RewardsView: View {
                                 if ledger.isRefunded(entry.id) {
                                     Text("已撤销").font(.system(size:13))
                                 } else if entry.kind == .redemption {
-                                    Button("撤销") { library.refund(entry.id) }.buttonStyle(.plain)
+                                    Button("撤销") { Task { await library.refundOnServer(entry.id) } }.buttonStyle(.plain)
                                         .font(.system(size:14)).foregroundStyle(Wood.Palette.actionPrimary)
                                         .accessibilityIdentifier("rewards.refund.\(entry.id.uuidString)")
                                 }

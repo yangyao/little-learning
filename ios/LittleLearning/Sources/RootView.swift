@@ -38,7 +38,7 @@ struct RootView: View {
         .sheet(item:$store.topicPickerGame) { game in
             StudyPickerView(game:game).presentationDetents([.large])
         }
-        .sheet(isPresented:$store.showsPointsSync) { PointsSyncView().presentationDetents([.large]) }
+
         .safeAreaInset(edge:.top,spacing:0) {
             if usage.showsWarning && !usage.isBlocked {
                 Text("还剩1分钟，记得休息一下")
@@ -46,7 +46,8 @@ struct RootView: View {
                     .background(Wood.Palette.hintBackground).accessibilityIdentifier("usage.warning")
             }
         }
-        .onAppear { updateUsage() }
+        .onAppear { updateUsage();collection.scheduleServerSync() }
+        .task(id:scenePhase) { guard scenePhase == .active else {return};while !Task.isCancelled {await collection.syncNow();do {try await Task.sleep(nanoseconds:30_000_000_000)} catch {return}} }
         .onChange(of:collection.activeChild) { _,_ in updateUsage() }
         .onChange(of:store.showsChildPicker) { _,_ in updateUsage() }
         .onChange(of:usage.isBlocked) { _,blocked in
@@ -57,6 +58,7 @@ struct RootView: View {
         }
         .onChange(of: scenePhase) { _, phase in
             updateUsage()
+            if phase == .active {collection.scheduleServerSync()}
             if phase != .active { collection.pauseFun();collection.stopDelivery();store.save(); collection.save(); store.stopSpeech() }
         }
     }

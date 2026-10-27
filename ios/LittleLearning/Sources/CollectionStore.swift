@@ -8,7 +8,7 @@ final class CollectionStore: ObservableObject {
     @Published var progress: CollectionProgress { didSet { reconcileRewards() } }
     @Published private(set) var recentAwardID: String?
     @Published var rewardMessage: String?
-    private var reconciling = false
+    var reconciling = false
     @Published var saveError: String?
     @Published private(set) var loadError: String?
     var clockDragging = false
@@ -22,10 +22,17 @@ final class CollectionStore: ObservableObject {
     var funTask: Task<Void,Never>?
     var antTask: Task<Void,Never>?
     @Published private(set) var activeChild: FamilyChild?
-    private var family: FamilyProgress?
+    var family: FamilyProgress?
     private let profilesEnabled: Bool
-    private let file: URL
-    private var saveTask: Task<Void,Never>?
+    let file: URL
+    var saveTask: Task<Void,Never>?
+    @Published var syncStatus="离线可用 · 等待同步"
+    @Published var syncBusy=false
+    var serverActionBusy=false
+    var serverConfigured=NASConfiguration.load() != nil
+    var serverExchange: (ServerSyncRequest) async throws -> ServerSyncResponse = NASClient.exchange
+    var serverTask: Task<Bool,Never>?
+    var serverDebounce: Task<Void,Never>?
 
     init(fileURL: URL? = nil,defaults: UserDefaults = .standard,uptime: @escaping ()->Double = { ProcessInfo.processInfo.systemUptime },profilesEnabled: Bool = false) {
         funNow=uptime
@@ -104,7 +111,7 @@ final class CollectionStore: ObservableObject {
         if let child=activeChild { reconciling=true;progress=updated.children[child.rawValue]!;reconciling=false }
         clearRewardNotice()
     }
-    private func writeFamily(_ state: FamilyProgress) throws {
+    func writeFamily(_ state: FamilyProgress) throws {
         let data=try JSONEncoder().encode(state)
         try FileManager.default.createDirectory(at:file.deletingLastPathComponent(),withIntermediateDirectories:true)
         try data.write(to:file,options:.atomic)
@@ -144,7 +151,7 @@ final class CollectionStore: ObservableObject {
             reconciling=true; progress=updated; reconciling=false
             recentAwardID=latest
             // The completed game state and its one-time award are one atomic file write.
-            save()
+            save();scheduleServerSync()
         } else { scheduleSave() }
     }
     func redeem(title: String,points: Int,requestID: UUID) -> Bool {

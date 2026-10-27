@@ -24,16 +24,18 @@ obj(21,'isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 
 obj(22,f'isa = PBXBuildFile; fileRef = {ident(21)};')
 obj(24,'isa = PBXFileReference; lastKnownFileType = folder; path = Sources/WebGames; sourceTree = "<group>";')
 obj(25,f'isa = PBXBuildFile; fileRef = {ident(24)};')
+obj(26,'isa = PBXFileReference; lastKnownFileType = folder; path = Sources/Configuration; sourceTree = "<group>";')
+obj(27,f'isa = PBXBuildFile; fileRef = {ident(26)};')
 obj(23,'isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>";')
 obj(1,f'isa = PBXProject; attributes = {{ BuildIndependentTargetsInParallel = YES; LastUpgradeCheck = 1600; TargetAttributes = {{ {ident(4)} = {{ CreatedOnToolsVersion = 16.0; }}; }}; }}; buildConfigurationList = {ident(5)}; compatibilityVersion = "Xcode 14.0"; developmentRegion = "zh-Hans"; hasScannedForEncodings = 0; knownRegions = ("zh-Hans", en, Base); mainGroup = {ident(2)}; productRefGroup = {ident(3)}; projectDirPath = ""; projectRoot = ""; targets = ({ident(4)});')
-obj(2,f'isa = PBXGroup; children = ({", ".join(refs+[ident(21),ident(23),ident(24),ident(3)])}); sourceTree = "<group>";')
+obj(2,f'isa = PBXGroup; children = ({", ".join(refs+[ident(21),ident(23),ident(24),ident(26),ident(3)])}); sourceTree = "<group>";')
 obj(3,f'isa = PBXGroup; children = ({ident(20)}); name = Products; sourceTree = "<group>";')
 obj(4,f'isa = PBXNativeTarget; buildConfigurationList = {ident(6)}; buildPhases = ({ident(7)}, {ident(8)}, {ident(9)}); buildRules = (); dependencies = (); name = LittleLearning; productName = LittleLearning; productReference = {ident(20)}; productType = "com.apple.product-type.application";')
 obj(5,f'isa = XCConfigurationList; buildConfigurations = ({ident(10)}, {ident(11)}); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;')
 obj(6,f'isa = XCConfigurationList; buildConfigurations = ({ident(12)}, {ident(13)}); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;')
 obj(7,f'isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = ({", ".join(builds)}); runOnlyForDeploymentPostprocessing = 0;')
 obj(8,'isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0;')
-obj(9,f'isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = ({ident(22)}, {ident(25)}); runOnlyForDeploymentPostprocessing = 0;')
+obj(9,f'isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = ({ident(22)}, {ident(25)}, {ident(27)}); runOnlyForDeploymentPostprocessing = 0;')
 for n,name in [(10,'Debug'),(11,'Release')]:
     settings={'CLANG_ENABLE_MODULES':'YES','SDKROOT':'iphoneos','IPHONEOS_DEPLOYMENT_TARGET':'17.0','SWIFT_VERSION':'5.0','SWIFT_OPTIMIZATION_LEVEL':'-Onone' if name=='Debug' else '-O','DEBUG_INFORMATION_FORMAT':'dwarf' if name=='Debug' else 'dwarf-with-dsym'}
     if name=='Debug':settings['SWIFT_ACTIVE_COMPILATION_CONDITIONS']='DEBUG'

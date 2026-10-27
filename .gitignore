@@ -14,3 +14,7 @@ xcuserdata/
 # Optional game bundles are private and not distributed.
 ios/LittleLearning/Sources/WebGames/*
 !ios/LittleLearning/Sources/WebGames/README.md
+
+# Private client NAS credentials
+ios/LittleLearning/Sources/NASConfig.json
+ios/LittleLearning/Sources/Configuration/NASConfig.json
