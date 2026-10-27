@@ -21,3 +21,24 @@ jobs:
         run: zsh scripts/check_sync_images.sh
       - name: Build native Mac preview
         run: swift build
+
+  server:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: server/go.mod
+          cache-dependency-path: server/go.sum
+      - name: Ledger, concurrency and persistence
+        run: go test -race ./...
+      - name: Authenticated HTTP, backup and restart
+        run: |
+          go build -o learning-server ./cmd/learning-server
+          python3 scripts/check_http.py ./learning-server
+      - name: ARM64 NAS binary
+        run: CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o learning-server-linux-arm64 ./cmd/learning-server

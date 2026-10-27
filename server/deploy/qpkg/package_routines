@@ -1,0 +1,5 @@
+pkg_pre_install(){
+    [ -x /usr/bin/sudo ] || return 1
+    [ -x /share/CACHEDEV2_DATA/homes/yangyao/littlelearning-sync/learning-server ] || return 1
+    [ -f /share/CACHEDEV2_DATA/homes/yangyao/littlelearning-sync/config.json ] || return 1
+}

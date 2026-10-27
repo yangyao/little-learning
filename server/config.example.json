@@ -1,0 +1,5 @@
+{
+  "listen": "127.0.0.1:8787",
+  "database": "data/family.db",
+  "token": "REPLACE_WITH_A_RANDOM_TOKEN_OF_AT_LEAST_32_CHARACTERS"
+}

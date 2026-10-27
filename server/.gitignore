@@ -1,0 +1,12 @@
+config.json
+secrets/
+data/
+artifacts/
+/learning-server*
+
+dist/*.qpkg
+
+*.db
+*.db-shm
+*.db-wal
+*.local.*
