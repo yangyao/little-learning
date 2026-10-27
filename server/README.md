@@ -6,6 +6,8 @@ Go 单一二进制和 SQLite，无需容器、Go 运行环境或外部数据库�
 
 ## 构建与验证
 
+构建需要 Go 1.21 或更新版本（SQLite 的 Linux x64 依赖使用标准库 slices）。NAS 运行编译后的单一二进制，不需要安装 Go。
+
 ```sh
 go test -race ./...
 go build -o learning-server ./cmd/learning-server
