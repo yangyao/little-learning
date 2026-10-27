@@ -4,7 +4,7 @@ SwiftUI learning games with offline local saves and optional NAS ledger sync. Se
 
 Copy Sources/Configuration/NASConfig.example.json to NASConfig.json in the same folder, fill in your NAS URL and shared token (at least32 characters), then rebuild. The actual config is ignored by Git. Without a valid config, learning and local awards still work; new redemptions require a configured NAS. Existing device history must be backed up and imported before the first sync. See [server setup](../../server/README.md).
 
-The drawer's sync button and lifecycle tasks use NASClient.swift and ServerSync.swift. Durable operation UUIDs survive restarts, earnings deduplicate by challenge, and purchased play minutes are granted only to the requesting device once. QR UI entry points have been removed; the old codec/merge rules remain for historical compatibility checks.
+The drawer's sync button and lifecycle tasks use NASClient.swift and ServerSync.swift. Durable operation UUIDs survive restarts, earnings deduplicate by challenge, and purchased play minutes are granted only to the requesting device once.
 
 Public builds preserve the existing com.example.littlelearning identifier and LittleLearning save directory; no family developer identity, signing credentials, real NAS config or third-party game bundles are distributed.
 

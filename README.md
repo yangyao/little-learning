@@ -1,160 +1,108 @@
 # 千臻乐园 · Little Learning
 
-给家里小朋友做的简体中文学习小游戏集合。iOS 使用 SwiftUI 原生界面，Android TV 支持遥控器，离线优先，没有账号、广告或订阅。原生游戏不依赖服务器；仓库另提供可自托管的 [NAS 积分同步服务](server/README.md)。
+给家里小朋友用的学习小游戏，支持 iPhone、Mac 预览和 Android TV。手机与电视通过家里的 NAS 同步积分。
 
-13 款学习游戏，42 个题组，902 个可玩挑战。首次完成关卡获得积分，重复做不重复计分；积分可以手动记录兑换礼物。
+没有账号、广告或订阅。学习游戏离线可用；NAS 连不上时仍能玩、通关和积累积分，兑换需要联网确认。
 
-<p align="center">
-  <img src="docs/screenshots/drawer.jpg" width="240" alt="学习游戏抽屉" />
-  <img src="docs/screenshots/math.jpg" width="240" alt="荷叶跳跳数学游戏" />
-  <img src="docs/screenshots/ruler.jpg" width="240" alt="断尺侦探：寻找缺刻度尺能量出的长度" />
-</p>
+## 游戏和使用方式
 
-截图为实际运行的 macOS 预览窗口，与 iOS 共用 SwiftUI 界面；不是设计稿。
+共13款学习游戏、42个题组、902个可玩挑战：
 
-## 可以玩什么
-
-| 游戏 | 学习与操作 |
+| 游戏 | 内容 |
 | --- | --- |
-| 荷叶跳跳 | 5 以内加减、10 以内加法与减法，24 道精选题 |
-| 断尺侦探 | 对齐测量、补刻度数字、无零断尺与缺刻度探索，24 关 |
-| 森林野餐 | 动手平均分、有余数，54 题 |
-| 拼音火车 | 声调、复韵母、鼻音、三拼、翘舌与整体认读，65 题 |
-| 拼字工坊 | 常见字、偏旁部件、形近字，67 字 |
-| 成语拼装 | 根据线索拼成语，30 题 |
-| 字母面包房 | 排字母拼单词，80 个单词 |
-| 滴答时钟 | 认识时间、分秒与经过时间，121 题 |
-| 巧移火柴 | 移动一根火柴使等式成立，281 题 |
-| 果篮分拣 | 按水果类型整理，36 关，支持撤销 |
-| 七巧板拼图 | 真正的七块木片，拖动、旋转与翻面，24 关 |
-| 小鸭送信 | 排前进、左转、右转指令，取信再送信，36 关 |
-| 规律串珠 | 找形状与颜色规律，补全珠子，60 关 |
+| 荷叶跳跳 | 加减法与数轴 |
+| 断尺侦探 | 对齐测量、补刻度与无零断尺 |
+| 森林野餐 | 平均分和有余数 |
+| 拼音火车 | 声调与拼音组合 |
+| 拼字工坊 | 汉字部件与偏旁 |
+| 成语拼装 | 读线索、拼成语 |
+| 字母面包房 | 拼写英语单词 |
+| 滴答时钟 | 认识时间与经过时间 |
+| 巧移火柴 | 移动一根火柴使算式成立 |
+| 果篮分拣 | 分类、规划与撤销 |
+| 七巧板拼图 | 移动、旋转与翻面 |
+| 小鸭送信 | 排指令、规划路线 |
+| 规律串珠 | 形状和颜色规律 |
 
-题组按已掌握的知识选择，不强制绑定年级。游戏内可以随时切组，完成后可继续复习；结果与下一题按钮固定在底部。
+打开后选择千一或臻一，两人的积分和进度分开。题组可以自由切换，同一挑战每个孩子只得分一次，复习不重复加分。电视版用方向键、确定和返回键操作，动物头像为原生绘制。
 
-## 使用30分钟，休息2小时（2.4）
+每个孩子在每台设备上有30分钟使用额度，用完休息2小时；选人页、后台和锁屏不计时。学习和游玩共用额度，购买游玩分钟不会增加总使用额度。
 
-千一、臻一分别计时，学习和游玩共用30分钟；选人页、后台、锁屏暂停。用完保存进度并强制休息2小时，到时自动恢复30分钟。抽屉显示剩余时间，最后1分钟提醒；没有加时、解锁或家长设置入口。每台手机独立计时，积分同步不会重置额度。
+## 手机、电视和 NAS 同步
 
-<p align="center"><img src="docs/screenshots/rest.jpg" width="240" alt="用完30分钟后的两小时强制休息页" /></p>
+- 两端自动同步积分、兑换和撤销，不需要手动扫码。
+- 离线获得的积分先存本机，恢复连接后再同步。
+- 兑换由 NAS 确认，断线重试不会重复扣分，两台设备同时兑换也不会透支。
+- 5积分兑换5分钟，只发到购买的设备一次，不会在其他设备复制时间。
+- 进行中的棋盘、题组、剩余游玩分钟及使用额度各机独立。
 
-## NAS 积分同步（iOS 2.5／Android TV 3.0）
+服务端使用 Go＋SQLite，编译成一个二进制即可放在 NAS 上运行，支持历史导入和数据库备份。QNAP 可安装随附的 QPKG 包装，由 App Center 管理启用、停用和开机启动。
 
-[`server/`](server/README.md) 使用 Go＋SQLite，可编译成单一 Linux ARM64 二进制部署到家用 NAS。它提供积分账本协议、测试、历史迁移工具和 QNAP 自启动包装。
+首次接入已有设备前，先备份并导入历史记录。NAS 保存的是积分账本，不能代替完整游戏存档的备份。
 
-| 内容 | 当前仓库状态 |
+## 代码位置
+
+| 目录 | 内容 |
 | --- | --- |
-| iOS／macOS 客户端 | 原生游戏离线运行，已接入 NAS 积分同步 |
-| Android TV 客户端 | [android-tv/](android-tv/README.md)：13款学习游戏、遥控器、动物头像和 NAS 同步 |
-| NAS 服务端 | 已提供积分同步、在线兑换、迁移和备份 API；客户端接入方式见服务文档 |
-| QNAP 启动管理 | 提供 QDK 包装源码，可由 App Center 管理启用、停用及开机启动 |
+| [ios/LittleLearning](ios/LittleLearning/README.md) | iPhone 客户端和 Mac 预览 |
+| [android-tv](android-tv/README.md) | Android TV 客户端、遥控器界面 |
+| [server](server/README.md) | NAS 同步服务、历史导入与备份工具 |
+| [server/deploy/qpkg](server/deploy/qpkg/README.md) | QNAP 自启动包装 |
+| [design](DESIGN.md) | 界面与交互说明 |
 
-两端客户端已接入同一协议，二维码入口已替换为 NAS 同步。默认不附带 NAS 凭证；未配置时仍可学习和累积积分，兑换须配置服务并联网确认。
+## 构建与配置
 
-同步规则：
+### iPhone / Mac
 
-- 学习、通关和得分保留在本机，离线可用；联网后上传新奖项，按孩子与挑战 ID 去重。
-- 新兑换和撤销由服务器事务确认；客户端持久化请求 UUID，超时或重启后重试同一笔，避免重复扣分和并发透支。
-- 购买的游玩分钟只发给请求设备一次；进行中的棋盘、剩余游玩时间和使用额度各机独立。
+需要 macOS、Xcode 和 iOS 17 或更新系统。打开 `ios/LittleLearning/LittleLearning.xcodeproj`，选择自己的 Team 和 Bundle Identifier，再运行到设备或模拟器。
 
-在仓库根目录构建与检查服务：
+NAS 设置：复制 `Sources/Configuration/NASConfig.example.json` 为同目录 `NASConfig.json`，填写 NAS URL 与共享 token 后重新构建。Mac 预览可在该项目目录运行 `zsh scripts/package_mac_preview.sh`。
+
+### Android TV
+
+需要 JDK 17、Android SDK 34，在 `android-tv` 目录运行：
 
 ```sh
-cd server
-go test -race ./...
+./gradlew assembleRelease
+```
+
+复制 `app/src/main/assets/nas-config.example.json` 为同目录 `nas-config.json`，填写相同的 NAS URL 和 token；使用 HTTP 时，将 `network_security_config.xml` 中的示例 NAS 地址改为实际地址。安装与遥控器说明见 [电视版 README](android-tv/README.md)。
+
+### NAS
+
+需要 Go 1.21 或更新版本进行编译；NAS 运行二进制时不需要 Go。在 `server` 目录运行：
+
+```sh
 go build -o learning-server ./cmd/learning-server
-python3 scripts/check_http.py ./learning-server
 cp config.example.json config.json
+# 编辑 config.json：设置监听地址并替换随机 token
+./learning-server -config config.json
 ```
 
-运行前编辑 config.json：设置 NAS 的固定局域网监听地址，并替换至少32字符的随机令牌；客户端使用相同令牌。示例默认只监听本机。令牌配置、数据库、原始存档及迁移输出都不应提交到公开仓库。随后运行 `./learning-server -config config.json`；Linux／NAS 也可使用 `./start.sh` 在退出 SSH 后继续运行服务。
+客户端与服务端使用同一个至少32字符的随机 token。Linux ARM64 构建、后台启动、QNAP 安装、迁移和备份命令见 [服务端 README](server/README.md)。
 
-QNAP 可用官方 QDK 构建 [App Center 管理包装](server/deploy/qpkg/README.md)，经管理员权限安装后注册开机启动；既可从 App Center 手动安装，也可先把包复制到 NAS 再在 NAS 本机执行 `sudo /bin/sh /path/to/package.qpkg`。构建前需核对包装中的部署路径和运行用户。完整协议、ARM64 构建、迁移及一致备份说明见 [服务端 README](server/README.md)。
+未配置 NAS 时，客户端仍可离线学习和积累积分，但不能兑换。真实配置、签名密钥、存档、数据库和安装包都不提交到仓库。
 
-## 客户端配置
+## 可选游玩资源
 
-- iOS：将 `ios/LittleLearning/Sources/Configuration/NASConfig.example.json` 复制为同目录 `NASConfig.json`，填写 NAS URL 与共享 token。配置目录由 Xcode 和 Swift Package 一起打包，真实配置已忽略提交。
-- Android TV：将 `android-tv/app/src/main/assets/nas-config.example.json` 复制为同目录 `nas-config.json`，填写相同配置；HTTP 还需将 network_security_config.xml 的示例 NAS IP 改为实际地址。构建与遥控器说明见 [电视版 README](android-tv/README.md)。
-- 接入已有设备前，先备份并导入历史兑换，不能直接以远端余额覆盖旧存档。请求失败会保留本机数据及待确认 UUID。
+家庭安装版使用的泡泡龙、合成大西瓜源码和素材未随仓库分发；公开代码只保留本地游戏桥接接口。缺少游戏包时，游玩列表为空，13款学习游戏仍可独立运行。接入自己有权使用的资源，见 [iOS 说明](ios/LittleLearning/Sources/WebGames/README.md) 和 [电视说明](android-tv/THIRD_PARTY.md)。
 
-旧二维码格式与合并规则保留作历史兼容和回归检查，界面不再提供二维码同步入口。
+## 本地检查
 
-## 双人使用（2.2）
+需要检查改动时，在对应目录运行即可：
 
-固定「千一／臻一」两个名字，打开先选人，抽屉左上角随时切换。每人的积分、兑换、题组、关卡进度和游玩时间独立；同一关每个孩子可以各得一次积分。旧存档自动归臻一，千一从零开始，旧文件保留。无需创建账号或设置。
-
-<p align="center"><img src="docs/screenshots/children.jpg" width="240" alt="千一和臻一的双人选择页" /></p>
-
-## 断尺侦探（2.1）
-
-三组各8关：量一量（6道移动测量＋2道补数字）、没有零也能量（8道断尺测量）、缺刻度挑战（6道目标长度＋2道找齐所有可测长度）。尺子可拖动，也可用箭头对齐；缺刻度关只允许用现有刻度作端点，一次摆放完成测量。
-
-所有正确端点组合都接受。提示把长度分成单位间隔，说明数的是间隔而不是刻线。探索关记录已发现长度，重复发现不增加完成数，找齐后才通关。普通关首次完成+1，完整探索关+3；重做、复习、重开不重复计分。
-
-## 积分与分类
-
-- 「学习／游玩」两个页签，默认进入学习，切换和返回保留列表位置。
-- 积分绑定稳定的挑战 ID，同一题重复完成、切换题组或重开都不能刷分。
-- 礼物兑换只需填写扣多少积分、换了什么，保留记录，并支持撤销一次。
-- 保留可选的趣味游戏时间接口：5 积分换 5 分钟、共用剩余时间、暂停／后台不计时；趣味游戏得分不变成学习积分。
-
-**公开仓库不包含私人版本使用的泡泡龙、合成大西瓜源码或素材。**这些上游项目的再分发授权未完整确认，因此克隆后「游玩」列表为空，13 款原生游戏可直接构建。接入自己有权使用的 HTML5 游戏，见 [可选游戏接入说明](ios/LittleLearning/Sources/WebGames/README.md)。本仓库的 MIT 授权不替代第三方游戏的授权。
-
-## 在 iPhone 上运行
-
-需要 macOS、Xcode，以及 iOS 17 或更新系统。
-
-```bash
-git clone https://github.com/yangyao/little-learning.git
-cd little-learning
-open ios/LittleLearning/LittleLearning.xcodeproj
-```
-
-1. 选择 `LittleLearning` target，在 Signing & Capabilities 中选择自己的 Team。
-2. 将 Bundle Identifier 改成自己的唯一标识。
-3. 连接手机，选择设备并运行。按系统提示完成开发者模式与开发者信任。
-
-可使用 Apple Account 的 Personal Team 进行个人真机开发，也可直接运行模拟器。仓库不包含签名证书或开发者账号配置。
-
-## Mac 预览与检查
-
-```bash
-cd ios/LittleLearning
-zsh scripts/package_mac_preview.sh
-open build/千臻乐园.app
-
+```sh
+# ios/LittleLearning
 zsh scripts/check_core.sh
 zsh scripts/check_store.sh
+
+# android-tv
+sh scripts/check.sh
+
+# server
+go test -race ./...
 ```
-
-新增 Swift 文件后运行 `python3 scripts/generate_project.py` 更新 Xcode 文件引用。原生游戏无需第三方包管理器或网络服务。
-
-## 代码与设计
-
-```text
-ios/LittleLearning/
-  Core/           题库、游戏规则、积分及可序列化状态
-  Sources/        SwiftUI 界面、离线 HTML5 容器
-  Checks/         规则与存档回归检查
-  Assets.xcassets/ 应用图标
-  scripts/        项目生成、验证与预览打包
-  Sources/WebGames/ 可选游戏接入目录（不分发第三方游戏）
-android-tv/       原生电视客户端、遥控器界面、规则检查与可选网页桥接
-server/
-  cmd/learning-server/  Go HTTP 服务入口
-  internal/syncdb/      SQLite 账本、奖励规则与事务检查
-  scripts/              HTTP 验证与历史迁移工具
-  deploy/qpkg/          QNAP App Center 自启动包装源码
-design/           设计 token 与生成脚本
-DESIGN.md         木质风格、布局和交互规范
-```
-
-落叶拓印已从抽屉移除，旧作品数据仅保留作存档兼容，不再提供入口。
-
-客户端将记录保存在本机应用支持目录；公开 iOS 版使用独立 Bundle Identifier 和 `LittleLearning` 存档目录。配置 NAS 后会自动同步积分账本，游戏中间状态与设备时长仍留在本机。删除 App／本机存档会丢失未备份、未同步的数据，NAS 账本不能恢复完整游戏存档。
-
-这个项目由家长按实际体验持续调整，不是完整课程或年级教学标准。欢迎通过 Issue / PR 补充玩法、题目与可访问性改进。
 
 ## License
 
-[MIT](LICENSE) · Copyright © 2026 yangyao。仅覆盖本仓库提供的原创代码与资源；系统符号、Emoji 由运行平台提供。未随仓库分发的第三方游戏不在此授权范围内。
+[MIT](LICENSE) · Copyright © 2026 yangyao。仅覆盖仓库提供的原创代码与资源；第三方组件按各自许可证使用，未分发的游戏资源不在此授权范围内。
