@@ -1,6 +1,6 @@
 English | [简体中文](README.md)
 
-# 千臻乐园 · Little Learning
+# Little Learning (千臻乐园)
 
 > Note: this README is the English version. The rest of the documentation (including [DESIGN.md](DESIGN.md), [CONTRIBUTING.md](CONTRIBUTING.md) and the READMEs in subdirectories) is written in Chinese.
 
