@@ -1,5 +1,7 @@
 # 千臻乐园 · Little Learning
 
+[English](README.en.md) | 简体中文
+
 给家里小朋友用的学习小游戏，支持 iPhone、Mac 预览和 Android TV。手机与电视通过家里的 NAS 同步积分。
 
 没有账号、广告或订阅。学习游戏离线可用；NAS 连不上时仍能玩、通关和积累积分，兑换需要联网确认。
